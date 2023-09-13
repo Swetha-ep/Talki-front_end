@@ -106,12 +106,27 @@ function Login({ user }) {
             )}
             <div className="flex justify-between">
               <h3 className="text-xs hover:drop-shadow-xl ">
-                Not a member? <a className="underline hover:cursor-pointer" href="/register">Register</a>
-              </h3>
-              <h3 className="text-xs hover:drop-shadow-xl hover:cursor-pointer underline">
-                Forgot password?
+                {user === "admin" ? (
+                  " "
+                ) : (
+                  <span>
+                    Not a member? <a className="underline hover:cursor-pointer" href="/register">Register</a>
+                  </span>
+                )}
+                <br/>
+                <span>
+                  <a className="text-xs hover:drop-shadow-xl hover:cursor-pointer underline " href="/forgot-password">
+                     Forgot password?
+                  </a>
+                </span>
               </h3>
             </div>
+
+
+
+
+
+
 
             <button
               type="submit"
