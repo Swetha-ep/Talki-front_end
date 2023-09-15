@@ -122,12 +122,6 @@ function Login({ user }) {
               </h3>
             </div>
 
-
-
-
-
-
-
             <button
               type="submit"
               className="py-2 text-white font-bold rounded-xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl "
