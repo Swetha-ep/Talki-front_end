@@ -6,6 +6,8 @@ import logoImage from "../../../assets/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 
+import { Link, Navigate, useLocation } from 'react-router-dom';
+
 const navigation = [
   { name: 'Home', href: '#', current: true },
   { name: 'Tutors', href: '#', current: false },
@@ -13,11 +15,35 @@ const navigation = [
   // { name: 'Calendar', href: '#', current: false },
 ]
 
+const userNavigation = [
+  { name: 'Your Profile', href: '#' },
+  { name: 'Settings', href: '#' },
+  { name: 'Sign out', href: '#' },
+]
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+  const location = useLocation();
+
+  const navigation = [
+    { name: 'Home', href: '/home', current:location.pathname === '/home' },
+    { name: 'Tutors', href: '/tutors', current:location.pathname === '/tutors' },
+    // { name: 'Projects', href: '#', current: false },
+    // { name: 'Calendar', href: '#', current: false },
+  ]
+
+  const currentItem = navigation.find((item) => item.current);
+
+  const userNavigation = [
+    { name: 'Your Profile', href: '/profile', current:location.pathname === '/trainer/profile'},
+    { name: 'Settings', href: '#' },
+    { name: 'Sign out', href: '#' },
+  ]
+
+  const activeItem = userNavigation.find((item) => item.current);
   return (
     <Disclosure as="nav" className="bg-black">
       {({ open }) => (
@@ -95,37 +121,23 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
+                            {userNavigation.map((item) => (
+                              <Menu.Item key={item.name}>
+                                {/* {({ active }) => ( */}
+                                  <a
+                                    href={item.href}
+                                    className={classNames(
+                                      item.current ? 'bg-gray-50' : '',
+                                      'block px-4 py-2 text-sm text-gray-700'
+                                    )}
+                                    aria-current={item.current ? 'page' : undefined}
+                                  >
+                                    {item.name}
+                                  </a>
+                                {/* )} */}
+                              </Menu.Item>
+                            ))}
+                          </Menu.Items>
                   </Transition>
                 </Menu>
               </div>

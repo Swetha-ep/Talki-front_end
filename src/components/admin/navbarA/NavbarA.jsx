@@ -24,7 +24,7 @@ const navigation = [
   { name: 'Users', href: '#', current: true },
   { name: 'Applications', href: '#', current: false },
   { name: 'Trainers', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  // { name: 'Reports', href: '#', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -46,7 +46,7 @@ const NavbarA = () => {
         { name: 'Users', href: '/admin/user-list', current: location.pathname === '/admin/user-list' },
         { name: 'Applications', href: '/admin/applications', current: location.pathname === '/admin/applications' },
         { name: 'Trainers', href: '/admin/trainer-list', current: location.pathname === '/admin/trainer-list' },
-        { name: 'Reports', href: '/reports', current: location.pathname === '/reports' },
+        // { name: 'Reports', href: '/reports', current: location.pathname === '/reports' },
       ];
     const currentItem = navigation.find((item) => item.current);
 

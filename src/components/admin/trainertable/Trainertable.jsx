@@ -4,8 +4,8 @@ import React, { useState }from 'react'
 function Trainertable() {
 
     const [users, setUsers] = useState([
-        { id: 1, name: 'User 1', profile: 'Beginner', isBlocked: false },
-        { id: 2, name: 'User 2', profile: 'Intermediate', isBlocked: true },
+        { id: 1, name: 'Trainer 1', profile: '', isBlocked: false },
+        { id: 2, name: 'Trainer 2', profile: '', isBlocked: true },
         // Add more data as needed
       ]);
     
