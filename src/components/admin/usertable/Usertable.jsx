@@ -1,53 +1,119 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 function Usertable() {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'User 1', level: 'Beginner', isBlocked: false },
-    { id: 2, name: 'User 2', level: 'Intermediate', isBlocked: true },
-    // Add more data as needed
-  ]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const toggleBlock = (userId) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => {
-        if (user.id === userId) {
-          return { ...user, isBlocked: !user.isBlocked };
-        }
-        return user;
+  useEffect(() => {
+    // Fetch user data from the server when the component mounts
+    fetch('http://127.0.0.1:8000/dashboard/userslist/')
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
       })
-    );
+      .catch((error) => {
+        console.error('Error fetching users:', error);
+      });
+  }, []);
+
+
+  const toggleBlock = (userId, is_active) => {
+    const userToToggle = users.find((user) => user.id === userId);
+    
+    const action = is_active ? 'block' : 'unblock';
+  
+    Swal.fire({
+      title: `Confirm ${action}`,
+      text: `Are you sure you want to ${action} this user?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        const apiUrl = is_active
+          ? `http://127.0.0.1:8000/dashboard/user-block/${userId}/`
+          : `http://127.0.0.1:8000/dashboard/user-unblock/${userId}/`;
+  
+        
+        fetch(apiUrl, {
+          method: 'PATCH', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}), 
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            
+            if (data.message) {
+              Swal.fire({
+                icon: 'success',
+                title: ` ${data.message}`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+            
+            setUsers((prevUsers) =>
+              prevUsers.map((user) => {
+                if (user.id === userId) {
+                  return { ...user, is_active: !is_active };
+                }
+                return user;
+              })
+            );
+          })
+          .catch((error) => {
+            console.error(`Error toggling user ${action} status:`, error);
+          });
+      }
+    });
   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    // <div className="flex justify-center items-center h-screen md:h-auto  ">
-    <div className="overflow-x-auto overflow-y-hidden md:mx-40 ">
-      <table className="min-w-full md:w-2/3  ">
-        <thead>
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mx-16">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th className="px-4 py-2">ID</th>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Level</th>
-            <th className="px-4 py-2">Actions</th>
+            <th scope="col" className="px-6 py-2">
+              ID
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Name
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Level
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Actions
+            </th>
           </tr>
         </thead>
-        <tbody className='text-center'>
+        <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="border px-4 py-2">{user.id}</td>
-              <td className="border px-4 py-2">{user.name}</td>
-              <td className="border px-4 py-2">{user.level}</td>
-              <td className="border px-4 py-2">
-                {user.isBlocked ? (
+              <td className="px-6 py-4">{user.id}</td>
+              <td className="px-6 py-4">{user.username}</td>
+              <td className="px-6 py-4">{user.email}</td>
+              <td className="px-6 py-4">
+                {!user.is_active ? (
                   <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={() => toggleBlock(user.id)}
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={() => toggleBlock(user.id, user.is_active)}
                   >
                     Unblock
                   </button>
                 ) : (
                   <button
-                    className="bg-green-500 text-white px-2 py-1 rounded"
-                    onClick={() => toggleBlock(user.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => toggleBlock(user.id, user.is_active)}
                   >
                     Block
                   </button>
@@ -58,9 +124,7 @@ function Usertable() {
         </tbody>
       </table>
     </div>
-    // </div>
   );
 }
 
 export default Usertable;
-

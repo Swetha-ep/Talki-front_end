@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes }from '@fortawesome/free-solid-svg-icons'; 
-
+import userAxios from '../../../axios/userAxios'
 
 function ProfileU() {
+
+  
+  const [isEdit , setIsEdit] = useState(false)
+
+  const handleSave = () =>{
+    setIsEdit(isEdit? false : true)
+  }
+
+
+  useEffect(()=>{
+    userAxios.get('/profile')
+  },[])
   return (
     <div>
       <section className="bg-gray-50 min-h-screen flex items-center justify-center ">
@@ -18,14 +30,14 @@ function ProfileU() {
               className="mt-12 p-2 m-2 text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
             >
               {" "}
-              Change password
+              Go to Suggestions
             </button>
             <button
               type="submit"
-              className="p-2  text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
+              className="p-2  text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40" onClick={()=>handleSave()}
             >
-              {" "}
-              Edit profile
+              { isEdit ? "save" :
+               "Edit profile" }
             </button>
             </div>
         {/* form*/}
@@ -39,8 +51,8 @@ function ProfileU() {
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 ">
             <dt className=" font-medium leading-6 text-gray-900 text-left ml-0">Full name</dt>
             
-            <dd className="mt-1  leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-right ">Margot Foster</dd>
-          </div>
+{isEdit ?     <input type="text" value={""} /> :      <dd className="mt-1  leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-right ">Margot Foster</dd> 
+}          </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className=" font-medium leading-6 text-gray-900 text-left ml-0">Country</dt>
             <dd className="mt-1  leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-right">India</dd>
@@ -55,15 +67,7 @@ function ProfileU() {
           </div>
           </dl>
           </div>
-          <div className='text-center mt-7'>
-          <button
-              type="submit"
-              className="text-center p-2 text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
-            >
-              {" "}
-             Go to Suggestions
-            </button>
-            </div>
+        
         </div>
       </div>
     </section>

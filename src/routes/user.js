@@ -4,18 +4,27 @@ import Login from '../components/common/login/Login'
 import Signup from '../components/common/register/Signup'
 import Home from '../pages/common/home/Home'
 import Profile from '../pages/user/profile/Profile'
+import ApplicationFormPage from '../pages/user/application/ApplicationFormPage'
+import InfroPage from '../pages/user/info/InfroPage'
+import TutorListingPage from '../pages/user/tutors/TutorListingPage'
+import TutorProfilePage from '../pages/user/tutors/TutorProfilePage'
 
 
 
 function UserRoute() {
+  const isUser =  localStorage.getItem('user')
+  console.log("token",isUser);
   return (
     <div> 
       <Routes>
-        <Route exact path='/'/>
-        <Route exact path='/login' element={<Login user={'user'}/>}/>
-        <Route exact path='/register' element={<Signup/>}/>
-        <Route exact path='/home' element={<Home />}/>
-        <Route exact path='/profile' element={<Profile />}/>
+        <Route exact path='/' element={isUser ? <Home /> :<Login user={'user'}/>}/>
+        <Route exact path='/login' element={!isUser && <Login user={'user'}/>}/>
+        <Route exact path='/register' element={!isUser &&  <Signup/> }/>
+        <Route exact path='/profile' element={isUser ? <Profile /> : <Login user={'user'}/>}/>
+        <Route exact path='/tutors' element={ isUser ? <TutorListingPage /> :<Login user={'user'}/>}/>
+        <Route exact path='/tutors-profile' element={isUser ? <TutorProfilePage /> : <Login user={'user'}/>}/>
+        <Route exact path='/application-form' element={isUser ? <ApplicationFormPage /> :<Login user={'user'}/>}/>
+        <Route exact path='/application-info' element={isUser  ? <InfroPage /> : <Login user={'user'}/>}/>
 
       </Routes>
     </div>

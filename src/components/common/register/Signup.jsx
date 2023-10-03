@@ -1,43 +1,109 @@
-import React, {useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import registerImage from '../../../assets/register.jpg'
-
+import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate  } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons'; 
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import userAxios from '../../../axios/userAxios'
 
 function Signup() {
-    const [email,setEmail] = useState('')
-    const [password,setPassword] = useState('')
-    const [password1,setPassword1] = useState('')
-    const [showPassword,setShowPassword] = useState(false)
-    const [showPassword1,setShowPassword1] = useState(false)
-    const [errorMessage,setErrorMessage] = useState('')
-    const [errorMessage1,setErrorMessage1] = useState('')
-    const [errorMessage2,setErrorMessage2] = useState('')
+  
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (email) {
-            setErrorMessage('');
-            if (password.trim() !== "") {
-                setErrorMessage1('');
-                if (password1.trim() !== "") {
-                    if (password1.trim() === password.trim()) {
-                        setErrorMessage2('');
-                    } else {
-                        setErrorMessage2("Please enter the same password");
-                    }
-                } else {
-                    setErrorMessage2("Please confirm your password");
-                }
-            } else {
-                setErrorMessage1('Please enter your password');
-            }
-        } else {
-            setErrorMessage('Please enter your email');
-        }
-    }
+  useEffect(() => {
     
+    document.title = "SignUp | Talki";
+  }, []);
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    level: "",
+    password: "",
+    // password1: "",
+  });
+  const [other, setother] = useState({password1:''})
+  const [loading, setLoading] = useState(false);
+  const [showPassword,setShowPassword] = useState(false)
+  const [showPassword1,setShowPassword1] = useState(false)
+  const isValidEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return regex.test(email);
+  };
+  
+  const [levelChoices, setLevelChoices] = useState([]);
+  const [verificationSuccessful, setVerificationSuccessful] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({...formData,[e.target.name]: e.target.value});  
+  }
+  
+
+    
+    const validateForm = () => {
+      if (formData.username.trim() === "") {
+        toast.error("Username should not be empty");
+        return false;
+      } else if (formData.email.trim() === "") {
+        toast.error("Email should not be empty");
+        return false;
+     
+      } else if (!isValidEmail(formData.email.trim())) {
+        setFormData((prevFormData) => ({ ...prevFormData, email: "" })); 
+        toast.error("Enter a valid Email");
+        return false;
+      }
+       else if (formData.password.trim() === "") {
+        toast.error("Password should not be empty");
+        return false;
+      } else if (formData.password.trim().length < 6) {
+        toast.warn("Password should be at least 6 characters");
+        return false;
+      } else if (formData.password1 === "") {
+        toast.error("Confirm Password should not be empty");
+        return false;
+      } else if (formData.password !== other.password1) {
+        toast.error("Password didn't match");
+        return false;
+      }
+      return true;
+    };
+  
+    const navigate = useNavigate();
+    
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    
+      if (validateForm()) {
+        setLoading(true);
+        try {
+          const response = await userAxios.post(
+            `/register/`,
+            formData
+          );
+          toast.success(response.data.message);
+    
+          setVerificationSuccessful(true);
+          // navigate('/login');
+          // navigate('/register-resendmail')
+        } catch (error) {
+          console.log(error.response.data.message);
+          if (error.response.data && error.response.data.message) {
+            // Extract and display the error message
+            const errorMessage = error.response.data.message;
+            toast.error(errorMessage);
+          } else {
+            // If 'message' property doesn't exist, handle the error gracefully
+            toast.error('An error occurred.');
+          }
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+   
 
   return (
     <div>
@@ -46,7 +112,7 @@ function Signup() {
         {/* image */}
 
         <div className="sm:block hidden w-1/2">
-          <img className="rounded-2xl" src={registerImage } alt="" srcset="" />
+          <img className="rounded-2xl mt-12" src={registerImage } alt="" srcset="" />
         </div>
 
         {/* form*/}
@@ -67,25 +133,43 @@ function Signup() {
               type="email"
               className="p-2 mt-8 rounded-xl border"
               name="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              value={formData.email}
+              onChange={handleChange}
               placeholder="email"
             />
-             {errorMessage && (
+             {/* {errorMessage && (
               <span className="text-red-500 text-xs">{errorMessage}</span>
-            )}
+            )} */}
+            <input
+              type="text"
+              className="p-2 mt-2 rounded-xl border"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="username"
+              autoComplete="new-username"
+            />
+            {/* <select
+              className="p-2 mt-2 rounded-xl border"
+              name="level"
+              value={formData.level}
+              onChange={handleChange}
+            >
+              <option value=""  className="text-gray-700">Select Level</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select> */}
+            
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 className="p-2 rounded-xl border w-full"
                 name="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="password"
+                autoComplete="new-password"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -108,21 +192,22 @@ function Signup() {
                   }
                 />
               </svg>
-              {errorMessage1 && (
+              {/* {errorMessage1 && (
               <span className="text-red-500 text-xs">{errorMessage2}</span>
-              )}
+              )} */}
             </div>
 
             <div className="relative">
-              <input
+            <input
                 type={showPassword1 ? "text" : "password"}
                 className="p-2 rounded-xl border w-full"
                 name="password"
-                value={password1}
+                value={other.password1}
                 onChange={(e) => {
-                  setPassword1(e.target.value);
+                  setother({ ...other, password1: e.target.value });
                 }}
                 placeholder="confirm password"
+                autoComplete="new-password"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -145,9 +230,9 @@ function Signup() {
                   }
                 />
               </svg>
-              {errorMessage2 && (
+              {/* {errorMessage2 && (
               <span className="text-red-500 text-xs">{errorMessage2}</span>
-              )}
+              )} */}
             </div>
             
             <h3 className="text-end text-xs hover:drop-shadow-xl hover:cursor-pointer"> Already have an account? <a className='underline' href="/login">Login</a></h3>
@@ -156,16 +241,19 @@ function Signup() {
               type="submit"
               className="py-2 text-white font-bold rounded-xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl "
             >
-              {" "}
-              SignUp
+              {loading ? "Signing up..." : "Sign up"}
             </button>
-
           </form>
         </div>
       </div>
+      <ToastContainer />
     </section>
     </div>
-  )
-}
+  
+  );
+            }
+            
+            
 
+                  
 export default Signup

@@ -3,7 +3,7 @@ import NavbarA from '../../../components/admin/navbarA/NavbarA'
 import Application from '../../../components/admin/application/Application'
 import Footer from '../../../components/user/footer/Footer'
 
-function Applications() {
+function ApplicationPage() {
   return (
     <div>
       <NavbarA/>
@@ -13,4 +13,4 @@ function Applications() {
   )
 }
 
-export default Applications
+export default ApplicationPage

@@ -1,12 +1,12 @@
 import React from 'react'
 import logoImage from "../../../assets/logo.png"
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
 
@@ -39,12 +39,30 @@ function classNames(...classes) {
 }
 const NavbarA = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
+  
+  const handleSignOut = () => {
     
+    localStorage.removeItem('admin');
+    setUserLoggedIn(false); 
+    window.location.href='/admin/login'
+
+  };
+
+  useEffect(() => {
+    
+    const token = localStorage.getItem('admin');
+    if (!token) {
+      
+      navigate('/admin/login'); 
+    }
+  }, [navigate, location]);
 
     const navigation = [
-        { name: 'Dashboard', href: '/admin/dashboard', current: location.pathname === '/admin/dashboard' },
+        { name: 'Dashboard', href: '/admin', current: location.pathname === '/admin' },
         { name: 'Users', href: '/admin/user-list', current: location.pathname === '/admin/user-list' },
-        { name: 'Applications', href: '/admin/applications', current: location.pathname === '/admin/applications' },
+        { name: 'Applications', href: '/admin/application-list', current: location.pathname === '/admin/application-list' },
         { name: 'Trainers', href: '/admin/trainer-list', current: location.pathname === '/admin/trainer-list' },
         // { name: 'Reports', href: '/reports', current: location.pathname === '/reports' },
       ];
@@ -125,22 +143,33 @@ const NavbarA = () => {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
-                                  <a
-                                    href={item.href}
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
-                                    )}
-                                  >
-                                    {item.name}
-                                  </a>
-                                )}
-                              </Menu.Item>
-                            ))}
-                          </Menu.Items>
+                  {userLoggedIn ? (
+                    <>
+                      {userNavigation.map((item) => (
+                        <Menu.Item key={item.name}>
+                          {({ active }) => (
+                            <a
+                              href={item.href}
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                              onClick={() => {
+                                if (item.name === 'Sign out') {
+                                  handleSignOut();
+                                }
+                              }}
+                            >
+                              {item.name}
+                            </a>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </>
+                  ) : (
+                    <p className="block px-4 py-2 text-sm text-gray-700">Not Logged In</p>
+                  )}
+                </Menu.Items>
                         </Transition>
                       </Menu>
                     </div>
@@ -213,13 +242,13 @@ const NavbarA = () => {
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
+      {currentItem &&  <header header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             {currentItem ? currentItem.name : 'Page not found'}
           </h1>
         </div>
-      </header>
+      </header>}
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
         </main>

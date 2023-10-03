@@ -7,7 +7,7 @@ function Cards() {
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center mt-5"> */}
         <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-3xl p-5 text-center mt-7 flex-1">
           <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            srcSet="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
             alt="Your Image"
             className="mx-auto mb-4 h-16 w-16 rounded-full"
             // style={{ width: '100px', height: '100px' }}
