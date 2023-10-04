@@ -1,36 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import userAxios from "../../../axios/userAxios";
 import axios, { Axios } from "axios";
 import { userAPI } from "../../../constants/api";
+import jwtDecode from 'jwt-decode';
+
+
 function ApplicationForm() {
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('user')
+  const decoded = jwtDecode(token)
+
   const [formData, setFormData] = useState({
+    user: decoded.user_id,
     name: "",
     phone: "",
-    aboutMe: "",
-    teachingStyle: "",
-    workExperience: "",
+    about_me: "",
+    teaching_style: "",
+    work_experience: "",
     education: "",
   });
 
-  // useEffect(() => {
+  const [SubData, setSubData] = useState({
     
-  //   axios
-  //     .get("http://127.0.0.1:8000/accounts/check-previous-submission/")
-  //     .then((response) => {
-  //       const previousData = response.data; 
-  //       if (previousData) {
+    name: "",
+    phone: "",
+    about_me: "",
+    teaching_style: "",
+    work_experience: "",
+    education: "",
+  });
+
+  
+// console.log(formData);
+
+
+  useEffect(() => {
+    
+    axios
+      .get(`http://127.0.0.1:8000/accounts/viewapplication/${decoded.user_id}`)
+      .then((response) => {
+        const previousData = response.data; 
+        console.log(previousData[0])
+        if (previousData) {
           
-  //         setFormData(previousData);
-  //       }
-  //     })
-  //     .catch((error) => {
+          setSubData(previousData[0]);
+        }
+      })
+      .catch((error) => {
         
-  //       console.error("Error fetching previous submission data:", error);
-  //     });
-  // }, []);
+        console.error("Error fetching previous submission data:", error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,16 +62,22 @@ function ApplicationForm() {
       [name]: value,
     });
   };
+  
+
+  const handleButtonClick = () => {
+    
+    navigate("/application-info");
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     axios
-        .post("http://127.0.0.1:8000/accounts/submit-application/", formData)
-      .then((response) => response.json())
-      .then((data) => {
+        .post('http://127.0.0.1:8000/accounts/submit-application/', formData)
+      // .then((response) => response.json())
+      .then((response) => {
         toast.success("Application submitted successfully")
-        console.log("Application submitted successfully:", data);
+        console.log("Application submitted successfully:", response);
         navigate("/application-info");
       })
       .catch((error) => {
@@ -57,6 +86,7 @@ function ApplicationForm() {
       });
   };
   return (
+    
     <div className="lg:m-16 m-10">
       <div className="shadow-lg lg:p-14 p-7 rounded-md">
         <h1 className="font-semibold text-lg">Welcome to Talki!</h1>
@@ -67,6 +97,8 @@ function ApplicationForm() {
           confidence in no time! The Talki Tutor signup process takes about 15
           minutes, and we’ll guide you through each step.
         </h1>
+        <ToastContainer/>
+        {!SubData ? (
         <form onSubmit={handleSubmit}>
         <div className="flex mt-6">
           <svg
@@ -126,8 +158,8 @@ function ApplicationForm() {
         </div>
         <textarea
           type="text"
-          name="aboutMe"
-          value={formData.aboutMe}
+          name="about_me"
+          value={formData.about_me}
           onChange={handleChange}
           className="h-20 rounded-lg bg-[#D9D9D9] border w-full m-2"
         />
@@ -147,8 +179,8 @@ function ApplicationForm() {
         </div>
         <textarea
           type="text"
-          name="teachingStyle"
-          value={formData.teachingStyle}
+          name="teaching_style"
+          value={formData.teaching_style}
           onChange={handleChange}
           className="h-20 rounded-lg bg-[#D9D9D9] border w-full m-2"
         />
@@ -170,8 +202,8 @@ function ApplicationForm() {
         </div>
         <textarea
           type="text"
-          name="workExperience"
-          value={formData.workExperience}
+          name="work_experience"
+          value={formData.work_experience}
           onChange={handleChange}
           className="h-20 rounded-lg bg-[#D9D9D9] border w-full m-2"
         />
@@ -200,13 +232,81 @@ function ApplicationForm() {
 
         <div className="flex justify-end mt-2">
           <button type="submit"
-            className="p-1 px-6 rounded-lg bg-[#D9D9D9]"
+            className="p-1 px-6 rounded-lg bg-[#D9D9D9] border"
             
           >
             Save
           </button>
         </div>
         </form>
+        ) : (
+          <div className="flex flex-col md:flex-row justify-center md:mx-32 mt-3">
+          <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-full p-5 px-10 text-center mt-5 justify-center">
+            
+            <div className="px-4 sm:px-0">
+              <h3 className="font-semibold leading-7 text-gray-900">Applicant Information</h3>
+              <p className="mt-1 max-w-2xl leading-6 text-gray-500"></p>
+            </div>
+    
+            <div className="mt-6 border-t border-gray-100">
+              
+                <dl className="divide-y divide-gray-100">
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Full name</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.name}
+                    </dd>
+                  </div>
+                  {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Email</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.email}
+                    </dd>
+                  </div> */}
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Phone</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.phone}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">About</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.about_me}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Teaching style</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.teaching_style}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Work experience</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.work_experience}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Education</dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
+                      {SubData.education}
+                    </dd>
+                  </div>
+                  {/* Render other application details similarly */}
+                </dl>
+                <div className="flex justify-end mt-2">
+          <button type="submit"
+            className="p-1 px-6 rounded-lg bg-[#D9D9D9] border"
+            onClick={handleButtonClick}
+          >
+            Next
+          </button>
+        </div>
+            </div>
+          </div>
+        </div>
+          )}
       </div>
     </div>
   );

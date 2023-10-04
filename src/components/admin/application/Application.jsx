@@ -10,7 +10,7 @@ function Application() {
 
   useEffect(() => {
     
-    // const apiUrl = `http://127.0.0.1:8000/dashboard/application-detail/${id}`;
+    
 
     adminAxios.get
     (`/application-detail/${id}`)

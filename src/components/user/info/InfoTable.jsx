@@ -19,28 +19,22 @@ function InfoTable() {
           </svg>
         </div>
         <h1 className="font-semibold text-lg">
-          We want to update you on the next steps in our application process. We
-          are impressed with your qualifications and would like to proceed with
-          further assessments.
+        We want to update you on the next steps in our application process. We have carefully reviewed your qualifications and are impressed with your credentials. As we move forward, we'd like to inform you that we are categorizing applicants into two positions, VIP and non-VIP, based on their reviews.
         </h1>
 
         <h1 className="font-semibold text-lg pt-3">
-          The next phase will consist of two parts:
+        The next phase will consist of one part:
         </h1>
         <h1 className="text-base p-2">
           {" "}
-          1) Chat Session: In this session, we will have a discussion to gauge
-          your communication skills, professionalism, and overall suitability
-          for the role. It's also an opportunity for you to learn more about our
-          organization and the role you've applied for.
+          Phone Interview: We will schedule a phone interview to assess your fluency and spoken language skills. This interview will help us better understand your ability to communicate effectively over the phone, which is an important aspect of the position.
+
+The categorization into VIP and non-VIP positions will be determined based on your performance in the phone interview as well as your overall application.
         </h1>
         <h1 className="text-base p-2">
           {" "}
-          2) Phone Interview: Following the chat session, we will schedule a
-          phone interview to assess your fluency and spoken language skills.
-          This interview will help us better understand your ability to
-          communicate effectively over the phone, which is an important aspect
-          of the position.
+          Thank you for your interest in joining our organization, and we look forward to the upcoming phone interview.
+
         </h1>
       </div>
     </div>

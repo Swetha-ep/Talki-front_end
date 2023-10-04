@@ -31,6 +31,7 @@ export const useLoginHandle = () => {
         .post("/login", loginData)
         .then((res) => {
           const token = res.data?.access;
+          
           localStorage.setItem("trainer", token);
           window.location.href="/trainer/home"
         })
