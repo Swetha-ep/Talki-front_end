@@ -13,7 +13,9 @@ function Trainertable() {
     const fetchTrainers = async () => {
       try {
         const response = await adminAxios.get("trainers/"); 
+        console.log(response.data)
         setUsers(response.data);
+        
         setLoading(false);
       } catch (error) {
         setError("Error fetching trainers.");

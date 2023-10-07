@@ -1,30 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import userAxios from '../../../axios/userAxios';
 import jwtDecode from 'jwt-decode';
-//import jwt from 'jsonwebtoken'
+import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 
 function ProfileU() {
-  const LEVEL_CHOICES = [
-    ('beginner', 'Beginner'),
-    ('intermediate', 'Intermediate'),
-    ('advanced', 'Advanced'),
-  ];
+  
+  
   const [isEdit, setIsEdit] = useState(false);
+  const [level_choices, setLevelChoices] = useState([]);
+
+  
   const [userData, setUserData] = useState({
     user_level: 'beginner', 
   }); 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]); 
+  };
 
   const handleSave = () => {
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append('profile_picture', selectedFile);
+      
+
+    }
+    console.log(userData)
     userAxios
-    .put(`/user-profile/${decoded.user_id}/`, userData)
+    .put(`/user-profile/${decoded.user_id}/`, userData,formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+      },
+    })
       .then((response) => {
         setUserData(response.data);
+        
+        toast.success("Profile updated successfully")
+        Swal.fire({
+          icon: 'success',
+          title: "Profile updated successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         console.error('Error editing user profile:', error);
+        toast.error("Error editing user profile")
       });
     setIsEdit(!isEdit);
   };
@@ -34,36 +61,57 @@ function ProfileU() {
   const decoded = jwtDecode(token)
   
   console.log(decoded.user_id,"swetha");
-
+  console.log(decoded.password);
   useEffect(() => {
     
     userAxios
       .get(`/user-profile/${decoded.user_id}`)
       .then((response) => {
         setUserData(response.data);
+        setLevelChoices(response.level_choices);
+        console.log(response.data)
       })
       .catch((error) => {
         console.error('Error fetching user profile:', error);
       });
+      
   }, []); 
 
   return (
     <div>
+      <ToastContainer/>
       <section className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5">
           <FontAwesomeIcon className="ml-auto " icon={faTimes} />
          
           <div className="flex flex-col items-center">
             <div className="sm:block  w-1/2 ">
+            {isEdit ? ( 
+            <input
+              type="file"
+              encType="multipart/form-data"
+              className='w-64 p-1  rounded-lg'
+              accept="image/*"
+              onChange={handleFileChange} 
+              style={{ display: 'none' }}
+              ref={fileInputRef}
+            />
+              >
               <img
-                className="rounded-full mt-20"
-                src={userData.profile_picture ? userData.profile_picture : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-              }
-                
+                className="h-15 w-15 mt-2 rounded-full"
+                src={userData.profile_picture ? userData.profile_picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
                 alt=""
-                srcset=""
+                onClick={() => fileInputRef.current.click()}
               />
+            
+            ) : (
+              <img
+                className="h-15 w-15 mt-2 rounded-full"
+                src={userData.profile_picture ? userData.profile_picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"} 
+                alt=""
+              />   )}
             </div>
+           
             <button
               type="submit"
               className="mt-12 p-2 m-2 text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
@@ -91,7 +139,7 @@ function ProfileU() {
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className=" font-medium leading-6 text-gray-900 text-left ml-0">
-                    Full name
+                    Username
                   </dt>
                   {isEdit ? (
                     <input
@@ -150,11 +198,16 @@ function ProfileU() {
                           })
                         }
                       >
-                        {LEVEL_CHOICES.map(([value, label]) => (
-                          <option key={value} value={value}>
-                            {value}
+                        {userData.level_choices ? (
+                        userData.level_choices.map((choice, index) => (
+                          <option key={index}>
+                            {choice.label}
+                            
                           </option>
-                        ))}
+                        ))
+                      ) : (
+                        <option>Loading...</option>
+                      )}   
                       </select>
                     </div>
                   ) : (
@@ -176,8 +229,12 @@ function ProfileU() {
               </dl>
             </div>
           </div>
+          
         </div>
+      {/* </div>   */}
+        
       </section>
+      
     </div>
   );
 }

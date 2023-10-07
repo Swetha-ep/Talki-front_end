@@ -9,9 +9,7 @@ function Application() {
   const [application, setApplication] = useState(null);
 
   useEffect(() => {
-    
-    
-
+ 
     adminAxios.get
     (`/application-detail/${id}`)
     .then((response) => {
@@ -21,7 +19,7 @@ function Application() {
         console.error('Error fetching application details:', error);
       });
   }, [id]);
-
+console.log(application);
   return (
     <div className="flex flex-col md:flex-row justify-center md:mx-32 mt-3">
       <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-full p-5 px-10 text-center mt-5 justify-center">
@@ -54,7 +52,7 @@ function Application() {
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Email</dt>
                 <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
-                  {application.user.email}
+                  {application?.user?.email}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

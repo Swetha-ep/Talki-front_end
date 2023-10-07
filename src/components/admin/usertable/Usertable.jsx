@@ -6,7 +6,7 @@ function Usertable() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch user data from the server when the component mounts
+    
     fetch('http://127.0.0.1:8000/dashboard/userslist/')
       .then((response) => response.json())
       .then((data) => {
