@@ -7,6 +7,8 @@ import Dashboard from '../pages/admin/dashboard/Dashboard'
 import ApplicationPage from '../pages/admin/applications/ApplicationPage'
 import ApplicaionList from '../pages/admin/applications/ApplicaionList'
 
+import TrainerInfo from '../pages/admin/trainerdetails/TrainerInfo'
+
 function AdminRoute() {
   const isAdmin =  localStorage.getItem('admin')
   console.log("token",isAdmin);
@@ -22,7 +24,8 @@ function AdminRoute() {
         <Route exact path='/user-list' element={isAdmin? <Userlist/> : <Login user={'admin'}/>}/>
         <Route exact path='/trainer-list' element={ isAdmin? <Trainerlist/> : <Login user={'admin'}/>}/>
         <Route exact path='/application-list' element={isAdmin? <ApplicaionList/> : <Login user={'admin'}/>}/> 
-        <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/> 
+        <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/>
+        <Route exact path='/trainer-details/:id' element={isAdmin? <TrainerInfo/> : <Login user={'admin'}/>}/> 
       </Routes>   
       
       

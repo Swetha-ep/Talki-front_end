@@ -11,6 +11,7 @@ function Usertable() {
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
+        console.log(data);
         setLoading(false);
       })
       .catch((error) => {

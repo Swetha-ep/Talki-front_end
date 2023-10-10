@@ -22,7 +22,7 @@ function UserRoute() {
         <Route exact path='/register' element={!isUser &&  <Signup/> }/>
         <Route exact path='/profile' element={isUser ? <Profile /> : <Login user={'user'}/>}/>
         <Route exact path='/tutors' element={ isUser ? <TutorListingPage /> :<Login user={'user'}/>}/>
-        <Route exact path='/tutors-profile' element={isUser ? <TutorProfilePage /> : <Login user={'user'}/>}/>
+        <Route exact path='/tutors-profile/:id' element={isUser ? <TutorProfilePage /> : <Login user={'user'}/>}/>
         <Route exact path='/application-form' element={isUser ? <ApplicationFormPage /> :<Login user={'user'}/>}/>
         <Route exact path='/application-info' element={isUser  ? <InfroPage /> : <Login user={'user'}/>}/>
 

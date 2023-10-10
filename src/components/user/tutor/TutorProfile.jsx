@@ -1,9 +1,26 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import tutorImage from '../../../assets/tr.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import adminAxios from '../../../axios/adminAxios'
 
 function TutorProfile() {
-    const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate()
+  const [profile, setProfile] = useState('');
+
+  useEffect(() => {
+    console.log("hiiiiiiiiiiiii")
+    adminAxios.get
+    (`user-application/${id}`)
+    .then((response) => {
+      setProfile(response.data);
+      console.log(response.data)
+      })
+      .catch((error) => {
+        console.error('Error fetching application details:', error);
+      });
+  }, [id]);
+
   return (
     <div className='m-10 lg:mx-24'>
 
@@ -22,9 +39,9 @@ function TutorProfile() {
         </div>
         <div className='flex flex-col items-center '>
             <img className='rounded-full shadow-xl h-28 w-28' src={tutorImage} alt="" srcset="" />
-            <h1 className='pt-15'>Arshad vk</h1>
+            <h1 className='pt-15'>{profile.name}</h1>
         </div>
-        <h1 className='font-thin  italic pt-4'>Hi, this is Mike from Ireland. It would be my pleasure to talk and tutor you. It will be my pleasure getting to know you and improving your English at the same time. I am friendly and very easy to talk with. I would love to meet you here and help with your progress.</h1>
+        <h1 className='font-thin  italic pt-4'>{profile.about_me}</h1>
         <div className='gap-2'>
         <div className='flex mt-6'>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-video3 m-1 mr-3" viewBox="0 0 16 16">
@@ -34,7 +51,7 @@ function TutorProfile() {
             <h1 >Teaching style :</h1>
         </div>
         <div>
-            <h1 className='mt-3 lg:mt-6'>I am happy teaching adults of any age. I am patient, understanding and easy going. When I am tutoring English I want my student to enjoy the lesson while improving their talking and grammar. If we need to be a little serious we can do that or if we just want a fun discussion, I am comfortable with both. </h1>
+            <h1 className='mt-3 lg:mt-6'>{profile.teaching_style}</h1>
         </div>
             </div>   
 
@@ -48,9 +65,9 @@ function TutorProfile() {
             <h1 >Work Experience :</h1>
         </div>
         <div className='mt-3'>
-            <h1>Business Development Manager IT</h1>
+            {/* <h1>Business Development Manager IT</h1> */}
             <h1 >
-I work for an Australian company but am based in Philippines. We buy and sell laptops and tablets from schools and businesses in Australia and New Zealand.</h1>
+            {profile.work_experience}</h1>
         </div>
             </div>    
 
@@ -63,16 +80,12 @@ I work for an Australian company but am based in Philippines. We buy and sell la
             <h1 >Education :</h1>
         </div>
         <div className='mt-3 lg:mt-6'>
-            <h1 className='lg:mt-2'>College : Sports and Athletics</h1>
+            {/* <h1 className='lg:mt-2'>College : Sports and Athletics</h1> */}
             <h1 className='lg:mt-2'>
-            I studied Sports Science</h1>
+            {profile.education}</h1>
         </div>
 
-        <div className='mt-3 lg:mt-6'>
-            <h1 className='lg:mt-2'>High School : Writing and Journalism</h1>
-            <h1 className='lg:mt-2'>
-            I got 4 A levels including English Language and English Literature.</h1>
-        </div>
+        
             </div>   
     </div>
     </div>
