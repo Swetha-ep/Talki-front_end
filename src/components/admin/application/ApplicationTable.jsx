@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import adminAxios from '../../../axios/adminAxios';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { PulseLoader } from 'react-spinners';
 
 function ApplicationTable() {
   const [applications, setApplications] = useState([]);
@@ -85,7 +86,11 @@ function ApplicationTable() {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <PulseLoader size={10} color="#95a7a4" />
+      </div>
+    );
   }
 
   return (

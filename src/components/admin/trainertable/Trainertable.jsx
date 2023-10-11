@@ -3,6 +3,7 @@ import adminAxios from "../../../axios/adminAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { PulseLoader } from 'react-spinners';
 
 function Trainertable() {
   const [users, setUsers] = useState([]);
@@ -139,7 +140,11 @@ function Trainertable() {
         
   
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <PulseLoader size={10} color="#95a7a4" />
+      </div>
+    );
   }
   
   if (error) {

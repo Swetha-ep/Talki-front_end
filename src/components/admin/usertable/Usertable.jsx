@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import { PulseLoader } from 'react-spinners';
 
 function Usertable() {
   const [users, setUsers] = useState([]);
@@ -75,7 +76,11 @@ function Usertable() {
     });
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <PulseLoader size={10} color="#95a7a4" />
+      </div>
+    );
   }
 
   return (

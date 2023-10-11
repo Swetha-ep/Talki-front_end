@@ -17,6 +17,7 @@ function ApplicationForm() {
     user: decoded.user_id,
     name: "",
     phone: "",
+    country:"",
     about_me: "",
     teaching_style: "",
     work_experience: "",
@@ -26,6 +27,7 @@ function ApplicationForm() {
   const [SubData, setSubData] = useState({
     
     name: "",
+    country:"",
     phone: "",
     about_me: "",
     teaching_style: "",
@@ -118,6 +120,27 @@ function ApplicationForm() {
           name="name"
           
           value={formData.name}
+          onChange={handleChange}
+          className="h-15 rounded-lg bg-[#D9D9D9] border w-80 m-2"
+        />
+        <div className="flex mt-6">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-person-fill m-1"
+            viewBox="0 0 16 16"
+          >
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+          </svg>
+          <h1 className="">Country :</h1>
+        </div>
+        <textarea
+          type="text"
+          name="country"
+          
+          value={formData.country}
           onChange={handleChange}
           className="h-15 rounded-lg bg-[#D9D9D9] border w-80 m-2"
         />
@@ -257,12 +280,12 @@ function ApplicationForm() {
                       {SubData.name}
                     </dd>
                   </div>
-                  {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Email</dt>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Country</dt>
                     <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">
-                      {SubData.email}
+                      {SubData.country}
                     </dd>
-                  </div> */}
+                  </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="font-medium leading-6 text-gray-900 text-left ml-20">Phone</dt>
                     <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-left">

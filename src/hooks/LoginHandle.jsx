@@ -3,6 +3,7 @@ import userAxios from "../axios/userAxios";
 import trainerAxios from "../axios/trainerAxios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import jwtDecode from 'jwt-decode';
 
 export const useLoginHandle = () => {
     
@@ -15,11 +16,18 @@ export const useLoginHandle = () => {
         .then((res) => {
           const token = res.data?.access;
           console.log({token})
+          const decoded = jwtDecode(token);
           
-          localStorage.setItem("user", token);
-          const Token=localStorage.getItem('user') 
-          console.log({Token})
-          window.location.href='/'         
+          if(decoded.is_trainer === false){
+            localStorage.setItem("user", token);
+            const Token=localStorage.getItem('user') 
+            console.log({Token})
+            window.location.href='/'
+          }else if (decoded.is_trainer === true){
+            const Token=localStorage.setItem('trainer' , token) 
+            navigate('/trainer/home');
+          }
+                   
         })
         .catch((error) => {
           console.log(error);

@@ -40,6 +40,8 @@ function TutorListing() {
         <img src={tutorImg} className='rounded-full shadow-xl h-28 w-28' alt="" srcset="" />
             </div>
             <h1 className='text-center font-medium text-base pt-5 '>{tutor.username}</h1>
+            {/* <h2 className='text-center font-light text-base pt-5 '>{tutor.country}</h2> */}
+
         <div className='gap-2  flex justify-center'>
             <button className='lg:p-2 p-1 lg:px-6 px-2 lg:text-base text-xs rounded-3xl text-white shadow-2xl m-1 lg:m-2 bg-[#8E8C8C]' onClick={()=>navigate(`/tutors-profile/${tutor.id}`)}>
             PROFILE

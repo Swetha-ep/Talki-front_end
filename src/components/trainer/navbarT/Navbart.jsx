@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment,useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logoImage from "../../../assets/logo.png"
@@ -27,7 +27,14 @@ function classNames(...classes) {
 }
 
 export default function Navbart() {
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
   const location = useLocation();
+  const handleSignOut = () => {
+    
+    localStorage.removeItem('trainer');
+    setUserLoggedIn(false); 
+    window.location.href='/login'
+  };
 
   const navigation = [
     { name: 'Home', href: '/trainer/home', current:location.pathname === '/trainer/home' },
@@ -125,22 +132,27 @@ export default function Navbart() {
                   >
                     
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {/* {({ active }) => ( */}
-                                  <a
-                                    href={item.href}
-                                    className={classNames(
-                                      item.current ? 'bg-gray-50' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
-                                    )}
-                                    aria-current={item.current ? 'page' : undefined}
-                                  >
-                                    {item.name}
-                                  </a>
-                                {/* )} */}
-                              </Menu.Item>
-                            ))}
+                    {userLoggedIn ? ( 
+                    <>
+                      {userNavigation.map((item) => (
+                        <Menu.Item key={item.name}>
+                          <a
+                            href={item.href}
+                            onClick={item.name === 'Sign out' ? handleSignOut : undefined}
+                            className={classNames(
+                              item.current ? 'bg-gray-50' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
+                            )}
+                            aria-current={item.current ? 'page' : undefined}
+                          >
+                            {item.name}
+                          </a>
+                        </Menu.Item>
+                      ))}
+                    </>
+                  ) : (
+                    <p className="block px-4 py-2 text-sm text-gray-700">Not Logged In</p>
+                  )}
                           </Menu.Items>
                   </Transition>
                 </Menu>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 import adminAxios from '../../../axios/adminAxios';
+import { PulseLoader } from 'react-spinners';
 
 function Application() {
   const { id } = useParams();
@@ -85,10 +86,12 @@ console.log(application);
                   {application.education}
                 </dd>
               </div>
-              {/* Render other application details similarly */}
+              
             </dl>
           ) : (
-            <p>Loading application details...</p>
+            <div className="flex h-screen items-center justify-center">
+        <PulseLoader size={10} color="#95a7a4" />
+      </div>
           )}
         </div>
       </div>
