@@ -14,26 +14,43 @@ function ProfileU() {
   const [level_choices, setLevelChoices] = useState([]);
 
   
-  const [userData, setUserData] = useState({
-    user_level: 'beginner', 
-  }); 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [userData, setUserData] = useState(
+    ''
+  ); 
+
+
+  const [selectedFile, setSelectedFile] = useState({
+    profile_picture:null,
+  });
+    console.log("-------------->",selectedFile)
+
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]); 
-  };
+    const image=(event.target.files[0]); 
+    setSelectedFile({
+      profile_picture:image
+    })
+    }
+
+
+    const handleEditClick = () => {
+      fileInputRef.current.click();
+    };
+
 
   const handleSave = () => {
     const formData = new FormData();
     if (selectedFile) {
-      formData.append('profile_picture', selectedFile);
+      formData.append('profile_picture', selectedFile.profile_picture);
+      formData.append('email',userData.email);
+      formData.append('user_level',userData.user_level);
+      formData.append('username',userData.username);
       
-
     }
     console.log(userData)
     userAxios
-    .put(`/user-profile/${decoded.user_id}/`, userData,formData,{
+    .patch(`/user-profile/${decoded.user_id}/`, formData,{
       headers: {
         'Content-Type': 'multipart/form-data', 
       },
@@ -86,30 +103,43 @@ function ProfileU() {
          
           <div className="flex flex-col items-center">
             <div className="sm:block  w-1/2 ">
-            {isEdit ? ( 
+  
+            
+           
+              
+            <form encType="multipart/form-data">
             <input
               type="file"
-              encType="multipart/form-data"
-              className='w-64 p-1  rounded-lg'
+              name="place_image"
               accept="image/*"
-              onChange={handleFileChange} 
-              style={{ display: 'none' }}
+              onChange={handleFileChange}
               ref={fileInputRef}
+              className="hidden"
+
             />
-              >
-              <img
-                className="h-15 w-15 mt-2 rounded-full"
-                src={userData.profile_picture ? userData.profile_picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
-                alt=""
-                onClick={() => fileInputRef.current.click()}
-              />
+          </form>
             
-            ) : (
-              <img
+            
+          <img
+        className="h-15 w-15 mt-2 rounded-full"
+        src={
+          // Use selectedFile when editing, userData.profile_picture otherwise
+          isEdit && selectedFile.profile_picture
+            ? URL.createObjectURL(selectedFile.profile_picture)
+            : userData.profile_picture
+            ? userData.profile_picture
+            : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        }
+        alt=""
+        onClick={handleEditClick}
+      />
+            
+            {/* ) : ( */}
+              {/* <img
                 className="h-15 w-15 mt-2 rounded-full"
                 src={userData.profile_picture ? userData.profile_picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"} 
                 alt=""
-              />   )}
+              />   )} */}
             </div>
            
             <button
@@ -202,6 +232,7 @@ function ProfileU() {
                         userData.level_choices.map((choice, index) => (
                           <option key={index}>
                             {choice.label}
+                           
                             
                           </option>
                         ))

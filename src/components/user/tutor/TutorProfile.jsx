@@ -38,7 +38,7 @@ function TutorProfile() {
           </svg>
         </div>
         <div className='flex flex-col items-center '>
-            <img className='rounded-full shadow-xl h-28 w-28' src={tutorImage} alt="" srcset="" />
+            <img className='rounded-full shadow-xl h-28 w-28' src={profile.profile_picture} alt="" srcset="" />
             <h1 className='pt-15'>{profile.name}</h1>
             <h2 className='pt-15'>{profile.country}</h2>
         </div>

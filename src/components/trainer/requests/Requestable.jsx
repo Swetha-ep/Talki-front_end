@@ -18,25 +18,24 @@ function ApplicationTable() {
   const [loading, setLoading] = useState(true);
   const [isAccepted, setIsAccepted] = useState(false);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(''); 
+  const [status, setStatus] = useState()
 
   useEffect(() => {
     
     userAxios
       .get(`/user-profile/${decoded.user_id}`)
       .then((response) => {
-        setUserData(response.data);
-        console.log(response.data)
+        setStatus(response.data.is_online)
       })
       .catch((error) => {
         console.error('Error fetching user profile:', error);
       });
       
-  }, [userData.is_online]);
+  }, []);
 
   const toggleOnline = () => {
     
-    const action = userData.is_online ? 'Go offline' :  'Go online';
+    const action = status ? 'Go offline' :  'Go online';
     console.log(action);
 
     Swal.fire({
@@ -49,10 +48,11 @@ function ApplicationTable() {
       }).then((result) => {
         if (result.isConfirmed) {
           
-          const apiUrl = userData.is_online
+          const apiUrl = status
           ? `http://127.0.0.1:8000/trainer/trainer-offline/${decoded.id}/`
           : `http://127.0.0.1:8000/trainer/trainer-online/${decoded.id}/`;
 
+          setStatus(status? false: true)
           fetch(apiUrl, {
             method: 'PATCH',
             headers: {
@@ -167,10 +167,10 @@ function ApplicationTable() {
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {/* Render your application data here */}
       <button
-    className={`border rounded-lg p-1 px-2 mt-10 text-white mb-10 mr-10 hover:bg-gray-300 float-right ${userData.is_online ? 'bg-red-600' : 'bg-green-500'}`}
+    className={`border rounded-lg p-1 px-2 mt-10 text-white mb-10 mr-10 hover:bg-gray-300 float-right ${status ? 'bg-red-600' : 'bg-green-500'}`}
     onClick={() => toggleOnline()}
     >
-    {userData.is_online ? 'Go Offline' : 'Go Online'}
+    {status ? 'Go Offline' : 'Go Online'}
     </button>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">

@@ -91,17 +91,17 @@ export default function Navbar() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      <p
+                      key={item.name}
+                      onClick={item.name === 'Sign out' ? handleSignOut : undefined}
+                      className={classNames(
+                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'rounded-md px-3 py-2 text-sm font-medium'
+                      )}
+                      aria-current={item.current ? 'page' : undefined}
+                    >
+                      <Link to={item.href}>{item.name}</Link>
+                    </p>
                     ))}
                   </div>
                 </div>
@@ -143,8 +143,8 @@ export default function Navbar() {
                     <>
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
-                          <a
-                            href={item.href}
+                          <p
+                            
                             onClick={item.name === 'Sign out' ? handleSignOut : undefined}
                             className={classNames(
                               item.current ? 'bg-gray-50' : '',
@@ -152,8 +152,8 @@ export default function Navbar() {
                             )}
                             aria-current={item.current ? 'page' : undefined}
                           >
-                            {item.name}
-                          </a>
+                            <Link to={item.href}>{item.name}</Link>
+                          </p>
                         </Menu.Item>
                       ))}
                     </>
