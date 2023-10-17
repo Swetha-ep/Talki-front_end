@@ -255,7 +255,7 @@ function ApplicationForm() {
 
         <div className="flex justify-end mt-2">
           <button type="submit"
-            className="p-1 px-6 rounded-lg bg-[#D9D9D9] border"
+            className="p-1 px-6 rounded-lg bg-[#D9D9D9] border group hover:border-2 border-black"
             
           >
             Save

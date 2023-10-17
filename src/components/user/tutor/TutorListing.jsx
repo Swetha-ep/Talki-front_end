@@ -2,6 +2,7 @@ import React , {useState, useEffect}from 'react'
 import tutorImg from '../../../assets/tr.jpg'
 import { useNavigate } from 'react-router-dom'
 import adminAxios from "../../../axios/adminAxios"
+import userAxios from "../../../axios/userAxios"
 import trainerAxios from "../../../axios/trainerAxios"
 import { ToastContainer, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -29,7 +30,7 @@ function TutorListing() {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        trainerAxios
+        userAxios
           .post(`trainer-connect/${sender_id}/${tutorId}/`)
           .then((response) => {
             console.log(response);

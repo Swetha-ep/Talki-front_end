@@ -20,12 +20,23 @@ function ApplicationTable() {
   const navigate = useNavigate();
   const [status, setStatus] = useState()
 
+
   useEffect(() => {
     
     userAxios
       .get(`/user-profile/${decoded.user_id}`)
       .then((response) => {
         setStatus(response.data.is_online)
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+
+      userAxios
+      .get(`senders-for-recipient/${decoded.user_id}/`)
+      .then((response) => {
+        console.log(response)
+        setApplications(response.data.senders)
       })
       .catch((error) => {
         console.error('Error fetching user profile:', error);
@@ -172,11 +183,13 @@ function ApplicationTable() {
     >
     {status ? 'Go Offline' : 'Go Online'}
     </button>
+    
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
             
             <th>Profile</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Level</th>
             <th>Actions</th>
 
@@ -201,9 +214,10 @@ function ApplicationTable() {
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {application.name}
+                {application.username}
               </th>
-              <td className="px-6 py-4">{application.user.email}</td>
+              <td className="px-6 py-4">{application.email}</td>
+              <td className="px-6 py-4">{application.user_level}</td>
               <td className="px-6 py-4">{application.phone}</td>
               
               
@@ -230,6 +244,7 @@ function ApplicationTable() {
           ))}
         </tbody>
       </table>
+      
     </div>
   );
 }

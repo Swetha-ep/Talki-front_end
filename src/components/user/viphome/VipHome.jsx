@@ -1,8 +1,10 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 function VipHome() {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row justify-center space-y-7 md:space-x-7 mx-4 md:mx-32 mt-5 ">
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center mt-5"> */}
@@ -19,9 +21,10 @@ function VipHome() {
             <button
                 type="button"
                 className="py-2 px-4 text-white  rounded-xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl"
+                onClick={() => navigate("/paymentvip")}
             >
-                Check this out !
-            </button>
+                Check this out!
+            </button >
             </div>
         </div>
         

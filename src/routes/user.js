@@ -8,6 +8,7 @@ import ApplicationFormPage from '../pages/user/application/ApplicationFormPage'
 import InfroPage from '../pages/user/info/InfroPage'
 import TutorListingPage from '../pages/user/tutors/TutorListingPage'
 import TutorProfilePage from '../pages/user/tutors/TutorProfilePage'
+import Paymentvip from '../pages/user/payment/Paymentvip'
 
 
 
@@ -25,6 +26,7 @@ function UserRoute() {
         <Route exact path='/tutors-profile/:id' element={isUser ? <TutorProfilePage /> : <Login user={'user'}/>}/>
         <Route exact path='/application-form' element={isUser ? <ApplicationFormPage /> :<Login user={'user'}/>}/>
         <Route exact path='/application-info' element={isUser  ? <InfroPage /> : <Login user={'user'}/>}/>
+        <Route exact path='/paymentvip' element={isUser  ? <Paymentvip /> : <Login user={'user'}/>}/>
 
       </Routes>
     </div>
