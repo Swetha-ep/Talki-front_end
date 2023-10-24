@@ -11,34 +11,18 @@ function VipPay() {
   const [Razorpay] = useRazorpay();
   const [amount, setAmount] = useState(500);
 
-  const getCSRFToken = () => {
-    const csrfCookie = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('csrftoken='));
-    if (csrfCookie) {
-      return csrfCookie.split('=')[1];
-    }
-    return '';
-  };
-  
  
-  const complete_payment = () => {
-    const payment_id = 'payment_id';
-    const order_id = 'order_id';
-    const signature = 'signature';
-    const csrfToken = getCSRFToken();
-    console.log(csrfToken,"ghhhhhhhhhhhhhhhh");
+  const complete_payment = (payment_id,order_id,signature) => {
+  
     axios
     .post(`http://127.0.0.1:8000/payment/order/complete/${decoded.user_id}/`, {
-      payment_id: payment_id,
-      order_id: order_id,
-      signature: signature,
-      amount: amount,
-      currency: 'INR',
+      "payment_id": payment_id,
+      "order_id": order_id,
+      "signature": signature,
+      "amount": amount,
+      "currency": 'INR',
     }, {
-      headers: {
-        'X-CSRFToken': csrfToken, 
-      },
+      
     })
       .then((response) => {
         console.log(response.data);
@@ -49,23 +33,16 @@ function VipPay() {
   };
 
   const razorpayPayment = () => {
-    
-    const payment_id = 'payment_id';
-    const order_id = 'order_id';
-    const signature = 'signature';
-    const csrfToken = getCSRFToken();
-
+  
     axios
     .post(`http://127.0.0.1:8000/payment/order/create/${decoded.user_id}/`, {
-      payment_id: payment_id,
-      order_id: order_id,
-      signature: signature,
-      amount: amount,
-      currency: 'INR',
+      // "payment_id": payment_id,
+      // "order_id": order_id,
+      // "signature": signature,
+      "amount": amount,
+      "currency": 'INR',
     }, {
-      headers: {
-        'X-CSRFToken': csrfToken, 
-      },
+      
     })
       .then(function (response) {
         console.log(response.data.data);
@@ -78,11 +55,11 @@ function VipPay() {
           image: logoImage,
           order_id: order_id,
           handler: function (response) {
-            complete_payment(complete_payment(
+            complete_payment(
               response.razorpay_payment_id,
               response.razorpay_order_id,
               response.razorpay_signature
-            ));
+            );
           },
           prefill: {
             name: 'Talki',

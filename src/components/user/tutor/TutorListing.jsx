@@ -11,9 +11,18 @@ import jwtDecode from 'jwt-decode';
 function TutorListing() {
 
   const [users, setUsers] = useState([]);
+  const [ids, setIds] = useState([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshEffect, setRefreshEffect] = useState(false);
+  
+  console.log(users,"anzik");
+
   const navigate = useNavigate()
+  const token = localStorage.getItem('user');
+      const decoded = jwtDecode(token); 
+      const sender_id = decoded.id;
+  
   const handleConnect = (tutorId) => {
     
     const token = localStorage.getItem('user')
@@ -33,8 +42,9 @@ function TutorListing() {
         userAxios
           .post(`trainer-connect/${sender_id}/${tutorId}/`)
           .then((response) => {
-            console.log(response);
+            console.log(response,"sent res");
             toast.success(response.data.message);
+            setRefreshEffect(!refreshEffect);
             Swal.fire({
               icon: 'success',
               title: 'Request Sent',
@@ -53,24 +63,79 @@ function TutorListing() {
       }
     });
   };
-   
+
+
+  const handleUndo = (tutorId) => {
+    
+    const token = localStorage.getItem('user')
+    console.log(token,"setha2");
+    const decoded = jwtDecode(token)
+    const sender_id = decoded.id
+
+    Swal.fire({
+      title: 'Confirm Connection',
+      text: 'Are you sure you want to withdraw request for this trainer?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        userAxios
+          .delete(`withdraw-request/${sender_id}/${tutorId}/`)
+          .then((response) => {
+            console.log(response);
+            toast.success(response.data.message);
+            setRefreshEffect(!refreshEffect);
+            Swal.fire({
+              icon: 'success',
+              title: 'Request Withdrawn',
+              text: response.data.message,
+            });
+          })
+          .catch((error) => {
+            toast.error('Failed to withdraw the connection request. Please try again later.');
+            console.error('Error undoing connection request:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Request Error',
+              text: error.response.data.message,
+            });
+          });
+      }
+    });
+  };
+  
+
     useEffect(() => {
     
       const fetchTrainers = async () => {
         try {
           const response = await adminAxios.get("trainer-online/"); 
-          console.log(response.data)
+          console.log(response.data,"trainers")
           setUsers(response.data);
-          
           setLoading(false);
         } catch (error) {
           setError("Error fetching trainers.");
           setLoading(false);
         }
       };
+
+      const fetchrecipients = async () => {
+        try{
+          const response = await userAxios.get(`get_recipient_ids/${sender_id}/`)
+          console.log(response.data,"idssssssssssssssssssssss")
+          setIds(response.data.recipient_ids)
+        } catch(error){
+          console.log(error)
+        }
+      }
   
       fetchTrainers();
-    }, []);
+      fetchrecipients();
+
+      
+    }, [refreshEffect]);
 
     
     
@@ -78,6 +143,7 @@ function TutorListing() {
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10 lg:mx-5 mx-1'>
       {users.map((tutor)=>{
+       const isTutorConnected = ids.includes(tutor.id);
         console.log(tutor.id)
         return(<>
         <div className='col-span-1 shadow-lg gap-2 p-4 m-3 rounded-2xl'>
@@ -94,9 +160,11 @@ function TutorListing() {
             <button className='lg:p-2 p-1 lg:px-6 px-2 lg:text-base text-xs rounded-3xl text-white shadow-2xl m-1 lg:m-2 bg-[#8E8C8C] group hover:border-2 border-black' onClick={()=>navigate(`/tutors-profile/${tutor.id}`)}>
             PROFILE
             </button>
+            
             <button className='lg:p-2 p-1 lg:px-6 px-2 lg:text-base text-xs rounded-3xl  shadow-2xl m-1 lg:m-2 bg-[#e7e7e7] group hover:border-2 border-black'
-            onClick={() => handleConnect(tutor.id)}>
-            CONNECT
+            onClick={() => (isTutorConnected ? handleUndo(tutor.id) : handleConnect(tutor.id))}>
+              {isTutorConnected ? 'UNDO' : 'CONNECT'}
+            
             </button>
         </div>
         </div>

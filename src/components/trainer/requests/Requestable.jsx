@@ -6,6 +6,8 @@ import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
 import jwtDecode from 'jwt-decode';
 import userAxios from '../../../axios/userAxios';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 function ApplicationTable() {
 
@@ -17,6 +19,7 @@ function ApplicationTable() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [refreshEffect, setRefreshEffect] = useState(false);
   const navigate = useNavigate();
   const [status, setStatus] = useState()
 
@@ -35,14 +38,14 @@ function ApplicationTable() {
       userAxios
       .get(`senders-for-recipient/${decoded.user_id}/`)
       .then((response) => {
-        console.log(response)
+        console.log(response,"requests")
         setApplications(response.data.senders)
       })
       .catch((error) => {
         console.error('Error fetching user profile:', error);
       });
       
-  }, []);
+  }, [refreshEffect]);
 
   const toggleOnline = () => {
     
@@ -106,65 +109,45 @@ function ApplicationTable() {
     };
   
 
-//   const handleApplication = (application, accept) => {
-//     console.log("RRRRRRRRRRRRRRRRRRRRRRRRRrrrrrrrrrrrrrr");
-//     const confirmButtonColor = accept ? '#4CAF50' : '#FF5733';
+    const handleIgnore = (userId) => {
+      const token = localStorage.getItem('trainer')
+      const decoded = jwtDecode(token)
+      const recipient_id=decoded.id
 
-//     Swal.fire({
-//       title: 'Confirm Action',
-//       text: `Are you sure you want to ${accept ? 'accept' : 'ignore'} this application?`,
-//       icon: 'question',
-//       showCancelButton: true,
-//       confirmButtonText: 'Yes',
-//       cancelButtonText: 'No',
-//       confirmButtonColor,
-//       cancelButtonColor: '#333',
-//     }).then((result) => {
-//       console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-//       if (result.isConfirmed) {
-//         // Make an Axios POST request to your Django backend
-//         // const endpoint = accept
-//         //   ? `http://localhost:8000/dashboard/accept_application/${application.id}/`
-//         //   : `http://localhost:8000/dashboard/decline_application/${application.id}/`;
-
-//         axios
-//           .post(endpoint)
-//           .then((response) => {
-//             if (response.status === 200) {
-//               // Optionally display a success message
-//               if (accept) {
-//                 Swal.fire('Success', 'Application accepted!', 'success');
-//                 setIsAccepted(true);
-//               } else {
-//                 Swal.fire('Success', 'Application declined!', 'success');
-//                 setIsAccepted(false);
-//               }
-
-//               // Refresh the list of applications after a successful action
-//               adminAxios
-//                 .get('applicationlist/') // Replace with your API endpoint
-//                 .then((response) => {
-//                   setApplications(response.data);
-                  
-//                 })
-//                 .catch((error) => {
-//                   console.error('Error fetching applications:', error);
-//                 });
-//             } else {
-//               // Handle other responses or errors
-//               Swal.fire('Error', 'Error processing the application.', 'error');
-//             }
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//             console.error('Error processing the application:', error);
-//             // Handle the error
-//             Swal.fire('Error', 'Error processing the application.', 'error');
-//           });
-//       }
-//     });
-//   };
-
+      Swal.fire({
+        title: 'Confirm Connection',
+      text: 'Are you sure you want to delete request from this user?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        userAxios
+          .delete(`withdraw-request/${userId}/${recipient_id}/`)
+          .then((response) => {
+            console.log(response);
+            toast.success(response.data.message);
+            setRefreshEffect(!refreshEffect);
+            Swal.fire({
+              icon: 'success',
+              title: 'Request Withdrawn',
+              text: response.data.message,
+            });
+          })
+          .catch((error) => {
+            toast.error('Failed to withdraw the connection request. Please try again later.');
+            console.error('Error undoing connection request:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Request Error',
+              text: error.response.data.message,
+            });
+          });
+      }
+    });
+  };
+     
 
 //   if (loading) {
 //     return (
@@ -187,7 +170,7 @@ function ApplicationTable() {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
             
-            <th>Profile</th>
+            <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Level</th>
@@ -225,14 +208,14 @@ function ApplicationTable() {
               
             <div>
               <button
-                  className="bg-green-500 p-1 px-2 rounded-2xl text-white"
+                  className="bg-green-500 p-1 px-2 rounded-2xl text-white group hover:border-2 border-black"
                 //   onClick={() => handleApplication(application, true)}
                 >
                   Accept
                 </button>
                 <button
-                  className="bg-red-600 p-1 px-2 rounded-2xl text-white m-1"
-                //   onClick={() => handleApplication(application, false)}
+                  className="bg-red-600 p-1 px-2 rounded-2xl text-white m-1 group hover:border-2 border-black"
+                  onClick={() => handleIgnore(application.id)}
                 >
                   Ignore
                 </button>

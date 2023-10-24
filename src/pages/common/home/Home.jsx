@@ -5,7 +5,12 @@ import Cards from '../../../components/user/section2/Cards'
 import VipHome from '../../../components/user/viphome/VipHome'
 import TrainerH from '../../../components/user/trainerhome/TrainerH'
 import Footer from '../../../components/user/footer/Footer'
+import jwtDecode from 'jwt-decode';
+
 function home() {
+  const token = localStorage.getItem('user')
+  const decoded = jwtDecode(token)
+  
   return (
     <div>
       <Navbar />
@@ -13,7 +18,8 @@ function home() {
         <img className="bg-cover bg-center h-auto w-full " src={bghomeImage} alt="" srcset="" />
         <Cards/>
       </div>
-        <VipHome />
+      {!decoded.vip ?
+        <VipHome /> : ''}
         <TrainerH />
         <Footer />
     </div>
