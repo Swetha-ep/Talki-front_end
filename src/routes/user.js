@@ -9,6 +9,7 @@ import InfroPage from '../pages/user/info/InfroPage'
 import TutorListingPage from '../pages/user/tutors/TutorListingPage'
 import TutorProfilePage from '../pages/user/tutors/TutorProfilePage'
 import Paymentvip from '../pages/user/payment/Paymentvip'
+import ChatComponent from '../components/common/chat/ChatComponent'
 
 
 
@@ -27,6 +28,7 @@ function UserRoute() {
         <Route exact path='/application-form' element={isUser ? <ApplicationFormPage /> :<Login user={'user'}/>}/>
         <Route exact path='/application-info' element={isUser  ? <InfroPage /> : <Login user={'user'}/>}/>
         <Route exact path='/paymentvip' element={isUser  ? <Paymentvip /> : <Login user={'user'}/>}/>
+        <Route exact path='/chat/:channelName/:trainer' element={isUser  ? <ChatComponent /> : <Login user={'user'}/>}/>
 
       </Routes>
     </div>

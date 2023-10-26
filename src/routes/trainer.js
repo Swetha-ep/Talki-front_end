@@ -5,6 +5,7 @@ import Signup from '../components/common/register/Signup'
 import Homet from '../pages/trainer/homet/Homet'
 import Profilet from '../pages/trainer/profilet/Profilet'
 import UserRequests from '../pages/trainer/requests/UserRequests'
+import TrainerChatComponent from '../components/trainer/chat/TrainerChatComponent'
 
 function TrainerRoute() {
   return (
@@ -16,6 +17,7 @@ function TrainerRoute() {
         <Route exact path='/home' element={<Homet/>}/>
         <Route exact path='/profile' element={<Profilet/>}/>
         <Route exact path='/requests' element={<UserRequests/>}/>
+        <Route exact path='/chat/:channelName/:user' element={<TrainerChatComponent/>}/>
 
       </Routes>
     </div>

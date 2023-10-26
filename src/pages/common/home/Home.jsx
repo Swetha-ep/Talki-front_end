@@ -18,7 +18,7 @@ function home() {
         <img className="bg-cover bg-center h-auto w-full " src={bghomeImage} alt="" srcset="" />
         <Cards/>
       </div>
-      {!decoded.vip ?
+      {!decoded.is_vip ?
         <VipHome /> : ''}
         <TrainerH />
         <Footer />
