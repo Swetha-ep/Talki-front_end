@@ -10,6 +10,8 @@ import TutorListingPage from '../pages/user/tutors/TutorListingPage'
 import TutorProfilePage from '../pages/user/tutors/TutorProfilePage'
 import Paymentvip from '../pages/user/payment/Paymentvip'
 import ChatComponent from '../components/common/chat/ChatComponent'
+import ForgotPassword from '../components/common/forgot_password/ForgotPassword'
+import Resetpassword from '../components/common/resetpassword/Resetpassword'
 
 
 
@@ -21,6 +23,8 @@ function UserRoute() {
       <Routes>
         <Route exact path='/' element={isUser ? <Home /> :<Login user={'user'}/>}/>
         <Route exact path='/login' element={!isUser && <Login user={'user'}/>}/>
+        <Route exact path='/forgot-password' element={!isUser && <ForgotPassword />}/>
+        <Route exact path='/resetpassword' element={!isUser && <Resetpassword/>}/>
         <Route exact path='/register' element={!isUser &&  <Signup/> }/>
         <Route exact path='/profile' element={isUser ? <Profile /> : <Login user={'user'}/>}/>
         <Route exact path='/tutors' element={ isUser ? <TutorListingPage /> :<Login user={'user'}/>}/>

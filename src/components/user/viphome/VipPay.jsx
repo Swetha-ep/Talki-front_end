@@ -1,31 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import useRazorpay from 'react-razorpay';
 import logoImage from '../../../assets/logo.png';
 import jwtDecode from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 function VipPay() {
   const token = localStorage.getItem('user');
   const decoded = jwtDecode(token);
   const [Razorpay] = useRazorpay();
-  const [amount, setAmount] = useState(500);
+  const [amount, setAmount] = useState({});
 
- 
+ useEffect(()=>{
+  axios.get('http://127.0.0.1:8000/payment/paymentdetails/')
+  .then((response) => {
+    console.log(response.data)
+    setAmount(response.data)
+  })
+ },[])
   const complete_payment = (payment_id,order_id,signature) => {
   
     axios
     .post(`http://127.0.0.1:8000/payment/order/complete/${decoded.user_id}/`, {
+      "user" : decoded.user_id,
       "payment_id": payment_id,
       "order_id": order_id,
       "signature": signature,
-      "amount": amount,
+      "amount": amount.price,
       "currency": 'INR',
     }, {
       
     })
       .then((response) => {
         console.log(response.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Payment Successful!',
+          text: 'Thank you for your payment.',
+        }).then(() => {
+          // Redirect to the home page after the Swal is closed
+          window.location.href = '/'; // Replace with the actual home page URL
+        });
       })
       .catch((error) => {
         console.log(error.response);
@@ -39,7 +55,7 @@ function VipPay() {
       // "payment_id": payment_id,
       // "order_id": order_id,
       // "signature": signature,
-      "amount": amount,
+      "amount": amount.price,
       "currency": 'INR',
     }, {
       
@@ -114,10 +130,10 @@ function VipPay() {
 
         <div className="flex justify-center h-screen">
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h1 className="text-2xl ml-24 font-bold mb-4">VIP Membership</h1>
-            <h1 className="text-5xl ml-40 font-bold mb-4">₹500</h1>
+            <h1 className="text-2xl ml-24 font-bold mb-4">VIP Membership {amount.name}</h1>
+            <h1 className="text-5xl ml-40 font-bold mb-4">{amount.price}</h1>
             <p className="text-lg">
-              Enjoy 30 days of fluent speaking with our best trainers. Live chat and video calls included.
+              Enjoy {amount.duration} of fluent speaking with our best trainers. Live chat and video calls included.
             </p>
             <button
               type="button"

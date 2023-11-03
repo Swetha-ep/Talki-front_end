@@ -4,7 +4,7 @@ import adminLoginImage from "../../../assets/adminlogin.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useNavigate,  useLocation } from "react-router-dom"; // Import navigate from react-router-dom
+import { useNavigate,  useLocation, Link } from "react-router-dom"; // Import navigate from react-router-dom
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLoginHandle } from "../../../hooks/LoginHandle";
@@ -141,12 +141,9 @@ function Login({ user }) {
                   )}
                   <br />
                   <span>
-                    <a
-                      className="text-xs hover:drop-shadow-xl hover:cursor-pointer underline "
-                      href="/forgot-password"
-                    >
+                  <Link to= "/forgot-password">
                       Forgot password?
-                    </a>
+                  </Link> 
                   </span>
                 </h3>
               </div>

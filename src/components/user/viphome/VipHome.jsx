@@ -2,10 +2,32 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
+import { useEffect ,useState} from 'react'
+import userAxios from '../../../axios/userAxios'
 
 function VipHome() {
+  const [profile, setProfile] = useState('');
+  const token = localStorage.getItem('user')
+  const decoded = jwtDecode(token)
   const navigate = useNavigate();
-  return (
+
+  useEffect(()=>{
+    userAxios
+      .get(`user-vip/${decoded.user_id}`)
+      .then((response) => {
+        setProfile(response.data);
+        
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+  },[])
+
+  
+  return !profile.is_vip ?(
+    
     <div className="flex flex-col md:flex-row justify-center space-y-7 md:space-x-7 mx-4 md:mx-32 mt-5 ">
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center mt-5"> */}
         <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-4xl p-7 text-center mt-10 ">
@@ -29,8 +51,8 @@ function VipHome() {
         </div>
         
       
-    </div>
-  )
+    </div> 
+  ) : null 
 }
 
 export default VipHome

@@ -141,8 +141,8 @@ function ChatComponent() {
 
   return (
     <div className="w-1/2 max-h-screen mx-auto">
-      <div className="flex flex-row items-center p-4 bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500">
-        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+      <div className="flex flex-row items-center p-4 bg-gray-300  border-l-2 border-black-500">
+        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-black text-white font-bold flex-shrink-0">
           T
         </div>
         <div className="flex flex-col flex-grow ml-3">
@@ -158,7 +158,7 @@ function ChatComponent() {
               return message.sender == "user" ? (
                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                   <div className="flex items-center justify-start flex-row-reverse">
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500 flex-shrink-0">
                       {
                       decoded.username ?
                       decoded.username[0] +  decoded.username[1]
@@ -175,7 +175,7 @@ function ChatComponent() {
               ) : (
                 <div className="col-start-1 col-end-8 p-3 rounded-lg">
                   <div className="flex flex-row items-center">
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-black text-white flex-shrink-0">
                       {recipientdetails.name
                         ? recipientdetails.name[0] + recipientdetails.name[1]
                         : ""}
@@ -203,7 +203,7 @@ function ChatComponent() {
           <div className="ml-6">
             <button
               onClick={onButtonClicked}
-              className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 hover:bg-gray-300 text-indigo-800 text-white"
+              className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500 hover:bg-gray-300 text-indigo-800 text-white"
             >
               <svg
                 className="w-5 h-5 transform rotate-90 -mr-px"
@@ -226,7 +226,7 @@ function ChatComponent() {
           <button
             onClick={handleExitChat}
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Exit Chat
           </button>

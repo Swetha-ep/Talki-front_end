@@ -1,10 +1,13 @@
-import { Fragment,useState } from 'react'
+import { Fragment,useEffect,useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logoImage from "../../../assets/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { Link, Navigate, useLocation } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import userAxios from "../../../axios/userAxios";
+
 
 
 
@@ -35,6 +38,25 @@ export default function Navbart() {
     setUserLoggedIn(false); 
     window.location.href='/login'
   };
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("trainer");
+  const decoded = jwtDecode(token);
+  const fetchApplications = () => {
+    userAxios
+      .get(`senders-for-recipient/${decoded.user_id}/`)
+      .then((response) => {
+        console.log(response, "requests");
+        setApplications(response.data.senders);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  };
+
+    fetchApplications();
+  }, []);
 
   const navigation = [
     { name: 'Home', href: '/trainer/home', current:location.pathname === '/trainer/home' },
@@ -98,14 +120,20 @@ export default function Navbart() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <FontAwesomeIcon className="h-6 w-6"icon={faComment} />
-                </button>
+              <Link to="/trainer/requests">
+              <button
+  type="button"
+  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+>
+  {applications && applications.length > 0 && (
+    <span className="absolute -top-1 -right-1 px-2 py-1 text-xs rounded-full bg-red-500 text-white">
+      {applications.length}
+    </span>
+  )}
+  <span className="sr-only">View notifications</span>
+  <FontAwesomeIcon className="h-6 w-6" icon={faComment} />
+</button>
+</Link>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
