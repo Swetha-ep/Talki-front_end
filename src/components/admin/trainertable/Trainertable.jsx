@@ -29,10 +29,10 @@ function Trainertable() {
     fetchTrainers();
   }, []);
 
-  const toggleBlock = (userId, is_active) => {
+  const toggleBlock = (userId, is_trainer) => {
     const userToToggle = users.find((user) => user.id === userId);
     
-    const action = is_active ? 'block' : 'unblock';
+    const action = is_trainer ? 'block' : 'unblock';
   
     Swal.fire({
       title: `Confirm ${action}`,
@@ -44,7 +44,7 @@ function Trainertable() {
     }).then((result) => {
       if (result.isConfirmed) {
         
-        const apiUrl = is_active
+        const apiUrl = is_trainer
           ? `http://127.0.0.1:8000/dashboard/trainer-block/${userId}/`
           : `http://127.0.0.1:8000/dashboard/trainer-unblock/${userId}/`;
   
@@ -71,7 +71,7 @@ function Trainertable() {
             setUsers((prevUsers) =>
               prevUsers.map((user) => {
                 if (user.id === userId) {
-                  return { ...user, is_active: !is_active };
+                  return { ...user, is_trainer: !is_trainer };
                 }
                 return user;
               })
@@ -210,17 +210,17 @@ function Trainertable() {
         </button>
       </td>
       <td className=" px-4 py-2">
-        {!user.is_active ? (
+        {!user.is_trainer ? (
           <button
             className="bg-green-500 text-white px-2 py-1 rounded"
-            onClick={() => toggleBlock(user.id,user.is_active)}
+            onClick={() => toggleBlock(user.id,user.is_trainer)}
           >
             Unblock
           </button>
         ) : (
           <button
             className="bg-red-500 text-white px-2 py-1 rounded"
-            onClick={() => toggleBlock(user.id,user.is_active)}
+            onClick={() => toggleBlock(user.id,user.is_trainer)}
           >
             Block
           </button>

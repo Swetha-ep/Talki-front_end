@@ -30,8 +30,11 @@ export const useLoginHandle = () => {
                    
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Invalid credentials")
+          if (error.response && error.response.data && error.response.data.detail) {
+            toast.error(error.response.data.detail);
+          } else {
+            toast.error('An error occurred');
+          }
           
         });
     } else if (user === "trainer") {

@@ -1,41 +1,40 @@
 import React, {useEffect, useRef, useState} from 'react'
 import resetImage from '../../../assets/register.jpg'
 import { ToastContainer, toast } from "react-toastify";
-import { Link, useLocation, useNavigate  } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams  } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons'; 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import userAxios from '../../../axios/userAxios'
+import jwtDecode from 'jwt-decode';
 
 function Resetpassword() {
-  const [user_id, setUserId] = useState()
- 
+  const [token, setToken] = useState()
+  const { key } = useParams();
   const location = useLocation();
   
   useEffect(() => {
+    
     const searchParams = new URLSearchParams(location.search);
-    const userId = searchParams.get('user_id');
-    if (userId) {
-      // Use userId in your logic, for example, make an API call with this userId
-      console.log('User ID:', userId);
-      
+    const gettoken = searchParams.get('key');
+    
+    if (gettoken) {
+      setToken(gettoken)
+
     }
-    setUserId(userId)
   }, [location.search]);
 
   
-
   useEffect(() => {
-    
-    
-    document.title = "SignUp | Talki";
+   
+    document.title = "Reset Password | Talki";
   }, []);
   
   const [formData, setFormData] = useState({
     
     password: "",
-    user_id : user_id
+    token : token
   });
   const [other, setother] = useState({password1:''})
   const [loading, setLoading] = useState(false);
@@ -78,12 +77,15 @@ function Resetpassword() {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+      formData.token = token
+      console.log(formData,"ddddddddddddddddddd")
+
     
       if (validateForm()) {
         setLoading(true);
         try {
           const response = await userAxios.post(
-            `reset-password/${user_id}`,
+            `reset-password/${token}/`,
             formData
           );
           toast.success(response.data.message);

@@ -4,7 +4,7 @@ import adminLoginImage from "../../../assets/adminlogin.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useNavigate,  useLocation, Link } from "react-router-dom"; // Import navigate from react-router-dom
+import { useNavigate,  useLocation, Link } from "react-router-dom"; 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLoginHandle } from "../../../hooks/LoginHandle";
@@ -30,7 +30,7 @@ function Login({ user }) {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessage2, setErrorMessage2] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const {loginHandle} = useLoginHandle()
   
   const handleLoginChange = (e) => {
@@ -55,13 +55,14 @@ function Login({ user }) {
       } else {
         setErrorMessage2("");
       }
+      
     }
   };
   return (
     <div>
       <section className="bg-gray-50 min-h-screen flex items-center justify-center ">
         <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5">
-          {/* image */}
+          
           <div className="sm:block hidden w-1/2">
             <img
               className="rounded-2xl"
@@ -70,7 +71,7 @@ function Login({ user }) {
               srcset=""
             />
           </div>
-          {/* form*/}
+          
           <div className="sm:w-1/2 px-16 ">
             <h1 className="font-extrabold text-2xl text-shadow text-center">
               TALKI <FontAwesomeIcon icon={faComment} />
@@ -141,7 +142,7 @@ function Login({ user }) {
                   )}
                   <br />
                   <span>
-                  <Link to= "/forgot-password">
+                  <Link to= "/forgot-password" className="underline hover:cursor-pointer">
                       Forgot password?
                   </Link> 
                   </span>

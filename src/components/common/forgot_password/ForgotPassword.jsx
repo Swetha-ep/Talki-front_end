@@ -46,6 +46,8 @@ function ForgotPassword() {
     setLoading(true);
     try {
       const response = await userAxios.post(`forgotpassword/`, loginData);
+      console.log(response)
+      toast.success(response.data.message)
       
     } catch (error) {
       console.log(error.response.data.message);

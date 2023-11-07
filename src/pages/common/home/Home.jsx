@@ -72,7 +72,7 @@ function Home() {
         <Cards />
       </div>
       {!profile.is_vip ? <VipHome /> : ""}
-      <TrainerH />
+      {!profile.user_role=='trainer'?<TrainerH /> : ""}
       <Footer />
     </div>
   );
