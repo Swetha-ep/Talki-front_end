@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import userAxios from '../../../axios/userAxios'
+import jwtDecode from 'jwt-decode';
+
 
 const navigation = [
   { name: 'Home', href: '#', current: true },
@@ -29,6 +32,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [userLoggedIn, setUserLoggedIn] = useState(true);
+  const [userData, setUserData] = useState(''); 
   
   const handleSignOut = () => {
     
@@ -46,6 +50,28 @@ export default function Navbar() {
     }
   }, [navigate, location]);
 
+  
+  const token = localStorage.getItem('user')
+  console.log(token,"setha2");
+  const decoded = jwtDecode(token)
+  
+  console.log(decoded.user_id,"swetha");
+  console.log(decoded.password);
+
+  useEffect(() => {
+    
+    userAxios
+      .get(`/user-profile/${decoded.user_id}`)
+      .then((response) => {
+        setUserData(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+      
+  }, []); 
+
   const navigation = [
     { name: 'Home', href: '/', current:location.pathname === '/home' },
     { name: 'Tutors', href: '/tutors', current:location.pathname === '/tutors' },
@@ -57,7 +83,7 @@ export default function Navbar() {
 
   const userNavigation = [
     { name: 'Your Profile', href: '/profile', current:location.pathname === '/trainer/profile'},
-    { name: 'Settings', href: '#' },
+    // { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '#' },
   ]
 
@@ -124,7 +150,7 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={userData.profile_picture}
                         alt=""
                       />
                     </Menu.Button>

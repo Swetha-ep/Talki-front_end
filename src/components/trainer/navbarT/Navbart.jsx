@@ -32,6 +32,7 @@ function classNames(...classes) {
 export default function Navbart() {
   const [userLoggedIn, setUserLoggedIn] = useState(true);
   const location = useLocation();
+  const [userData, setUserData] = useState('');
   const handleSignOut = () => {
     
     localStorage.removeItem('trainer');
@@ -58,6 +59,28 @@ export default function Navbart() {
     fetchApplications();
   }, []);
 
+  
+  const token = localStorage.getItem('trainer')
+  console.log(token,"setha2");
+  const decoded = jwtDecode(token)
+  
+  console.log(decoded.user_id,"swetha");
+  console.log(decoded.password);
+
+  useEffect(() => {
+    
+    userAxios
+      .get(`/user-profile/${decoded.user_id}`)
+      .then((response) => {
+        setUserData(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+      
+  }, []); 
+
   const navigation = [
     { name: 'Home', href: '/trainer/home', current:location.pathname === '/trainer/home' },
     { name: 'Requests', href: '/trainer/requests', current:location.pathname === '/trainer/requests' },
@@ -70,11 +93,13 @@ export default function Navbart() {
 
   const userNavigation = [
     { name: 'Your Profile', href: '/trainer/profile', current:location.pathname === '/trainer/profile'},
-    { name: 'Settings', href: '#' },
+    // { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '#' },
   ]
 
   const activeItem = userNavigation.find((item) => item.current);
+
+
 
   return (
     <Disclosure as="nav" className="bg-black">
@@ -143,7 +168,7 @@ export default function Navbart() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={userData.profile_picture}
                         alt=""
                       />
                     </Menu.Button>

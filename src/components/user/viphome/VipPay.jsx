@@ -111,39 +111,41 @@ function VipPay() {
 
   return (
     <div className="lg:m-16 m-10">
-      <div className="shadow-lg lg:p-14 p-7 rounded-md">
-        <div className="flex justify-end">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-x-circle-fill"
-            viewBox="0 0 25 25"
-          >
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-          </svg>
-        </div>
-        <h6 className="text-lg">
-          "Unlock a World of English Learning! Become a VIP Member Today and Enjoy 30 Days of Uninterrupted Conversations with Our Highly Skilled Trainers. Say Goodbye to Delays and Hello to Fluency!"
-        </h6>
+      <div className="">
+        
+      <h6 className="text-lg text-center">
+  "Unlock a World of English Learning! Become a VIP Member Today and Enjoy 30 Days of Uninterrupted Conversations with Our Highly Skilled Trainers. Say Goodbye to Delays and Hello to Fluency! Get exclusive access to a community of motivated learners. Elevate your speaking skills with tailored sessions. Learn at your pace, achieve fluency effortlessly."
+</h6>
 
-        <div className="flex justify-center h-screen">
-          <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h1 className="text-2xl ml-24 font-bold mb-4">VIP Membership {amount.name}</h1>
-            <h1 className="text-5xl ml-40 font-bold mb-4">{amount.price}</h1>
-            <p className="text-lg">
-              Enjoy {amount.duration} of fluent speaking with our best trainers. Live chat and video calls included.
-            </p>
-            <button
-              type="button"
-              onClick={razorpayPayment}
-              className="py-2 px-4 text-white mt-20 ml-40 rounded-xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl"
-            >
-              UPGRADE NOW
-            </button>
-          </div>
-        </div>
+
+        <div className="flex justify-center h-screen mt-10">
+  <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-md w-full">
+    <h1 className="text-2xl ml-16 font-bold mb-4 mt-5">VIP Membership {amount.name}</h1>
+    <h1 className="text-5xl ml-28 font-bold mb-4">{amount.price} <span className="text-sm"> INR</span></h1>
+    <p className="text-lg mb-6 mt-8 text-center">
+      Enjoy the following features with your VIP Membership:
+    </p>
+    <ul className="text-left list-disc pl-5  mt-10">
+      <li>VIP Trainers at Your Service</li>
+      <li>Unlimited Daily Connections for Continuous Learning</li>
+      <li>Personalized Feedback and Valuable Suggestions</li>
+      <li>Extended Chat Time for Uninterrupted Conversations</li>
+      
+      <li>Specialized Training Programs Tailored for You</li>
+      <li>Customized Learning Plans for Rapid Improvement</li>
+      <li>Priority Support for Your Language Journey</li>
+      
+    </ul>
+    <button
+      type="button"
+      onClick={razorpayPayment}
+      className="py-2 px-4 text-white ml-28 rounded-xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl mt-14"
+    >
+      UPGRADE NOW
+    </button>
+  </div>
+</div>
+
       </div>
     </div>
   );

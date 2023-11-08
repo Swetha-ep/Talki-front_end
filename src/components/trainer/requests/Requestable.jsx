@@ -82,6 +82,7 @@ function ApplicationTable() {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              setRefreshEffect(!refreshEffect);
               // const token = localStorage.getItem('trainer')
               // fetch('http://127.0.0.1:8000/accounts/token/refresh/', {
               //     method: 'POST',

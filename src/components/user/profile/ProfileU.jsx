@@ -41,13 +41,18 @@ function ProfileU() {
 
   const handleSave = () => {
     const formData = new FormData();
-    if (selectedFile) {
+    if (selectedFile.profile_picture instanceof File) {
       formData.append('profile_picture', selectedFile.profile_picture);
-      formData.append('email',userData.email);
-      formData.append('user_level',userData.user_level);
-      formData.append('username',userData.username);
-      
+    } else {
+      console.error('Selected file is not a File object:', selectedFile.profile_picture);
+      // Ensure this output is a File object, if not, check the file input event handling.
     }
+  
+    // Append other data to the FormData
+    formData.append('email', userData.email);
+    formData.append('user_level', userData.user_level);
+    formData.append('username', userData.username);
+  
     console.log(userData)
     userAxios
     .patch(`/user-profile/${decoded.user_id}/`, formData,{
