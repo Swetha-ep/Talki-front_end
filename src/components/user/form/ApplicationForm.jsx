@@ -73,19 +73,24 @@ function ApplicationForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    axios
+  
+    // Perform basic form validation
+    if (!formData.name || !formData.country || !formData.phone || !formData.about_me) {
+      // Display an error message or use toast to notify the user
+      toast.error("Please fill in all required fields.");
+    } else {
+      // If the required fields are filled, submit the form
+      axios
         .post('http://127.0.0.1:8000/accounts/submit-application/', formData)
-      // .then((response) => response.json())
-      .then((response) => {
-        toast.success("Application submitted successfully")
-        console.log("Application submitted successfully:", response);
-        navigate("/application-info");
-      })
-      .catch((error) => {
-        toast.error("Error submitting application")
-        console.error("Error submitting application:", error);
-      });
+        .then((response) => {
+          toast.success("Application submitted successfully");
+          navigate("/application-info");
+        })
+        .catch((error) => {
+          toast.error("Error submitting application");
+          console.error("Error submitting application:", error);
+        });
+    }
   };
   return (
     
@@ -114,6 +119,7 @@ function ApplicationForm() {
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
           </svg>
           <h1 className="">Name :</h1>
+          <span className="text-red-500">*</span>
         </div>
         <textarea
           type="text"
@@ -135,6 +141,7 @@ function ApplicationForm() {
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
           </svg>
           <h1 className="">Country :</h1>
+          <span className="text-red-500">*</span>
         </div>
         <textarea
           type="text"
@@ -157,6 +164,7 @@ function ApplicationForm() {
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
           </svg>
           <h1 className="">Phone :</h1>
+          <span className="text-red-500">*</span>
         </div>
         <textarea
           type="text"
@@ -178,6 +186,7 @@ function ApplicationForm() {
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
           </svg>
           <h1 className="">About me :</h1>
+          <span className="text-red-500">*</span>
         </div>
         <textarea
           type="text"

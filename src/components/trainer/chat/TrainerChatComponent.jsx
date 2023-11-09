@@ -58,7 +58,7 @@ export default function TrainerChatComponent() {
             toast.success(response.data.message);
             Swal.fire({
               icon: "success",
-              title: "Chat exted",
+              title: "Chat exited",
               text: response.data.message,
             }).then(() => {
               navigate("/trainer/requests");

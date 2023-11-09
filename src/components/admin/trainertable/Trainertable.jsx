@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import adminAxios from "../../../axios/adminAxios";
+import userAxios from "../../../axios/userAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { PulseLoader } from 'react-spinners';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 function Trainertable() {
   const [users, setUsers] = useState([]);
+  const [rating,setRating] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -26,7 +30,18 @@ function Trainertable() {
       }
     };
 
+    const fetchratings = async() => {
+      try{
+        const response = await userAxios.get("trainer-rating/");
+        console.log(response.data)
+        setRating(response.data)
+      } catch(error) {
+        console.log("Error in fetching averages")
+      }
+    }
+
     fetchTrainers();
+    fetchratings();
   }, []);
 
   const toggleBlock = (userId, is_trainer) => {
@@ -151,6 +166,12 @@ function Trainertable() {
     toast.error("Some error occured");
   }
 
+  const GoldenStar = () => {
+    return (
+      <FontAwesomeIcon icon={faStar} style={{ color: 'gold' }} />
+    );
+  };
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mx-10">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -170,6 +191,9 @@ function Trainertable() {
             </th>
             <th scope="col" className="px-6 py-3">
               Actions
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Ratings
             </th>
             <th scope="col" className="px-6 py-3">
               VIP
@@ -209,6 +233,7 @@ function Trainertable() {
           Details
         </button>
       </td>
+      
       <td className=" px-4 py-2">
         {!user.is_trainer ? (
           <button
@@ -226,6 +251,19 @@ function Trainertable() {
           </button>
         )}
       </td>
+      <th
+  scope="row"
+  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+>
+  {rating.find(r => r.trainer_id === user.id) ? (
+    <div>
+      <GoldenStar />
+      {rating.find(r => r.trainer_id === user.id).average_rating}
+    </div>
+  ) : (
+    "No rating"
+  )}
+</th>
       <td className="px-4 py-2">
       <label>
         <input

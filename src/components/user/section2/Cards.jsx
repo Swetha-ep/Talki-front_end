@@ -7,7 +7,7 @@ function Cards() {
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center mt-5"> */}
         <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-3xl p-5 text-center mt-7 flex-1">
           <img
-            srcSet="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            srcSet="https://static.vecteezy.com/system/resources/previews/020/389/525/original/hand-drawing-cartoon-girl-cute-girl-drawing-for-profile-picture-vector.jpg"
             alt="Your Image"
             className="mx-auto mb-4 h-16 w-16 rounded-full"
             // style={{ width: '100px', height: '100px' }}
@@ -30,7 +30,7 @@ function Cards() {
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center"> */}
         <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-3xl p-5 text-center flex-1">
           <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            src="https://img.freepik.com/premium-vector/illustration-young-stylish-man-cartoon-handsome-bearded-man-hipster-profile-avatar_15870-758.jpg?w=360"
             alt="Your Image"
             className="mx-auto mb-4 h-16 w-16 rounded-full"
             // style={{ width: '100px', height: '100px' }}
@@ -54,7 +54,7 @@ function Cards() {
       {/* <section className="bg-gray-50 min-h-screen flex flex-col items-center justify-center"> */}
         <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-3xl p-5 text-center flex-1">
           <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            src="https://png.pngtree.com/png-clipart/20230913/original/pngtree-profile-picture-png-image_11063391.png"
             alt="Your Image"
             className="mx-auto mb-4 h-16 w-16 rounded-full"
             // style={{ width: '100px', height: '100px' }}

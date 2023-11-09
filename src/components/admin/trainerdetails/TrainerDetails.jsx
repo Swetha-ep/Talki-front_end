@@ -27,7 +27,7 @@ function TrainerDetails() {
       <div className="bg-gray-100 flex flex-col rounded-2xl shadow-lg max-w-full p-5 px-10 text-center mt-10 justify-center ">
       <FontAwesomeIcon className='ml-auto' icon={faTimes} onClick={() => navigate("/admin/trainer-list")}/>
           <img
-            src={ "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
+            src={profile.user? profile.user.profile_picture : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
             alt="Your Image"
             className="mx-auto mb-4 h-16 w-16 rounded-full mt-10"
             // style={{ width: '100px', height: '100px' }}
