@@ -18,7 +18,7 @@ function TrainerRoute() {
         <Route exact path='/profile' element={isTrainer ?<Profilet/> :<Login user={'user'}/>}/>
         <Route exact path='/requests' element={isTrainer ?<UserRequests/>:<Login user={'user'}/>}/>
         <Route exact path='/chat/:channelName/:user' element={isTrainer ?<TrainerChatComponent/>:<Login user={'user'}/>}/>
-        <Route exact path='/*' element={<Error404Page role={"/trainer"}/>}/>
+        <Route exact path='/*' element={<Error404Page role={"/"}/>}/>
 
       </Routes>
     </div>
