@@ -19,7 +19,7 @@ export const useLoginHandle = () => {
           const decoded = jwtDecode(token);
           const role = decoded.is_trainer ? 'trainer' : decoded.is_admin ? 'admin' : 'user';
           localStorage.setItem(role, token);
-          navigate('/');
+          window.location.href='/';
                    
         })
         .catch((error) => {
