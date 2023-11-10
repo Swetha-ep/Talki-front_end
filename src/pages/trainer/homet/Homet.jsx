@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbart from '../../../components/trainer/navbarT/Navbart'
 import trainerHImage from '../../../assets/trainerhome.jpg'
 import Cards from '../../../components/user/section2/Cards'

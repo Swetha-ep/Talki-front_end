@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../../../components/user/navbar/Navbar'
 import ApplicationForm from '../../../components/user/form/ApplicationForm'
 import Footer from '../../../components/user/footer/Footer'

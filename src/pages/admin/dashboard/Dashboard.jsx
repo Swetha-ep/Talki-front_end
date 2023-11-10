@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavbarA from '../../../components/admin/navbarA/NavbarA'
 import Graph from '../../../components/admin/dashboardgraph/Graph'
 import Linegraph from '../../../components/admin/dashboardgraph/Linegraph'
