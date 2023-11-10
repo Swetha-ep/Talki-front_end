@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { w3cwebsocket } from "websocket";
 import jwtDecode from "jwt-decode";
-import { chatAPI } from "../../../constants/api";
+import { chatAPI, wsApiUrl } from "../../../constants/api";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -133,8 +133,9 @@ function ChatComponent() {
           setMessages(response.data);
         }
       });
+      
 
-    const client = new w3cwebsocket(`ws://localhost:8000/chat/${channelName}/`);
+    const client = new w3cwebsocket(`${wsApiUrl}/chat/${channelName}/`);
 
     setClientState(client);
     client.onopen = () => {

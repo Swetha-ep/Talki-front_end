@@ -8,7 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import userAxios from "../../../axios/userAxios";
-import {chatAPI} from '../../../constants/api'
+import {chatAPI, wsApiUrl} from '../../../constants/api'
 
 export default function TrainerChatComponent() {
   const { channelName } = useParams();
@@ -87,7 +87,7 @@ export default function TrainerChatComponent() {
         }
     })
 
-    const client = new w3cwebsocket(`ws://localhost:8000/chat/${channelName}/`);
+    const client = new w3cwebsocket(`${wsApiUrl}/chat/${channelName}/`);
 
     setClientState(client);
     client.onopen = () => {

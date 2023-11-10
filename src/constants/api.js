@@ -11,4 +11,5 @@ export const chatAPI = `https://talki.onrender.com/chat`
 export const adminAPI = `https://talki.onrender.com/dashboard`
 export const trainerAPI = `https://talki.onrender.com/trainer`
 
+
 export const wsApiUrl = 'wss://talki.onrender.com';
