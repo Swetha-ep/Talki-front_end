@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { PulseLoader } from 'react-spinners';
 import adminAxios from '../../../axios/adminAxios'
+import { adminAPI } from '../../../constants/api';
 
 function Usertable() {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ function Usertable() {
 
   useEffect(() => {
     
-    fetch(`${adminAxios}/userslist/`)
+    fetch(`${adminAPI}/userslist/`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
