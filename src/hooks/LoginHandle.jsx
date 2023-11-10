@@ -17,16 +17,9 @@ export const useLoginHandle = () => {
           const token = res.data?.access;
           console.log({token})
           const decoded = jwtDecode(token);
-          
-          if(decoded.is_trainer === false){
-            localStorage.setItem("user", token);
-            const Token=localStorage.getItem('user') 
-            console.log({Token})
-            window.location.href='/'
-          }else if (decoded.is_trainer === true){
-            const Token=localStorage.setItem('trainer' , token) 
-            navigate('/trainer/home');
-          }
+          const role = decoded.is_trainer ? 'trainer' : decoded.is_admin ? 'admin' : 'user';
+          localStorage.setItem(role, token);
+          navigate('/');
                    
         })
         .catch((error) => {

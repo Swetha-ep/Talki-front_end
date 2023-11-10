@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from '../components/common/login/Login'
 import Signup from '../components/common/register/Signup'
 import Home from '../pages/common/home/Home'
@@ -16,8 +16,12 @@ import Resetpassword from '../components/common/resetpassword/Resetpassword'
 
 
 function UserRoute() {
-  const isUser =  localStorage.getItem('user')
-  console.log("token",isUser);
+  const isUser = localStorage.getItem('user');
+  const isAdmin = localStorage.getItem('admin');
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
   return (
     <div> 
       <Routes>

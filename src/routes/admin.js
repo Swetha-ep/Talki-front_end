@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from '../components/common/login/Login'
 import Userlist from '../pages/admin/user_list/Userlist'
 import Trainerlist from '../pages/admin/trainer_list/Trainerlist'
@@ -12,25 +12,28 @@ import TrainerInfo from '../pages/admin/trainerdetails/TrainerInfo'
 function AdminRoute() {
   const isAdmin =  localStorage.getItem('admin')
   console.log("token",isAdmin);
-  useEffect(()=>{
-
-  },[])
-  return (
-    <div>
-      
-      <Routes>
-        <Route exact path='/' element={isAdmin ? <Dashboard/> : <Login user={'admin'}/>}/>
-        <Route exact path='/login' element={!isAdmin ?  <Login user={'admin'}/> : <Dashboard/>}/>
-        <Route exact path='/user-list' element={isAdmin? <Userlist/> : <Login user={'admin'}/>}/>
-        <Route exact path='/trainer-list' element={ isAdmin? <Trainerlist/> : <Login user={'admin'}/>}/>
-        <Route exact path='/application-list' element={isAdmin? <ApplicaionList/> : <Login user={'admin'}/>}/> 
-        <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/>
-        <Route exact path='/trainer-details/:id' element={isAdmin? <TrainerInfo/> : <Login user={'admin'}/>}/> 
-      </Routes>   
-      
-      
-    </div>
-  )
+  
+  if (isAdmin) {
+    
+    return (
+      <div>
+        
+        <Routes>
+          <Route exact path='/' element={isAdmin ? <Dashboard/> : <Login user={'admin'}/>}/>
+          <Route exact path='/login' element={!isAdmin ?  <Login user={'admin'}/> : <Dashboard/>}/>
+          <Route exact path='/user-list' element={isAdmin? <Userlist/> : <Login user={'admin'}/>}/>
+          <Route exact path='/trainer-list' element={ isAdmin? <Trainerlist/> : <Login user={'admin'}/>}/>
+          <Route exact path='/application-list' element={isAdmin? <ApplicaionList/> : <Login user={'admin'}/>}/> 
+          <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/>
+          <Route exact path='/trainer-details/:id' element={isAdmin? <TrainerInfo/> : <Login user={'admin'}/>}/> 
+        </Routes>   
+        
+        
+      </div>
+    )
+  } else {
+    return <Navigate to="/login" />;
+  }
 }
 
 export default AdminRoute

@@ -2,7 +2,7 @@
 // export const chatAPI = `http://localhost:8000/chat`
 // export const adminAPI = `http://localhost:8000/dashboard/`
 // export const trainerAPI = `http://localhost:8000/trainer/`
-
+// export const paymentAPI = 'http://localhost:8000/payment'
 // export const wsApiUrl = 'ws://127.0.0.1:8000';
 
 
