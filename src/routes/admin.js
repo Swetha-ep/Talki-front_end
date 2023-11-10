@@ -16,7 +16,7 @@ function AdminRoute() {
   console.log("token",isAdmin);
   
   if (isUser) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   } 
     
     return (
