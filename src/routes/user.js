@@ -12,6 +12,7 @@ import Paymentvip from '../pages/user/payment/Paymentvip'
 import ChatComponent from '../components/common/chat/ChatComponent'
 import ForgotPassword from '../components/common/forgot_password/ForgotPassword'
 import Resetpassword from '../components/common/resetpassword/Resetpassword'
+import Error404Page from '../components/common/error/Error404'
 
 
 
@@ -37,6 +38,7 @@ function UserRoute() {
         <Route exact path='/application-info' element={isUser  ? <InfroPage /> : <Login user={'user'}/>}/>
         <Route exact path='/paymentvip' element={isUser  ? <Paymentvip /> : <Login user={'user'}/>}/>
         <Route exact path='/chat/:channelName/:trainer' element={isUser  ? <ChatComponent /> : <Login user={'user'}/>}/>
+        <Route exact path='/*' element={<Error404Page role={"/"}/>}/>
 
       </Routes>
     </div>

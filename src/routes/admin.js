@@ -8,6 +8,7 @@ import ApplicationPage from '../pages/admin/applications/ApplicationPage'
 import ApplicaionList from '../pages/admin/applications/ApplicaionList'
 
 import TrainerInfo from '../pages/admin/trainerdetails/TrainerInfo'
+import Error404Page from '../components/common/error/Error404'
 
 function AdminRoute() {
   const isAdmin =  localStorage.getItem('admin')
@@ -26,13 +27,21 @@ function AdminRoute() {
           <Route exact path='/application-list' element={isAdmin? <ApplicaionList/> : <Login user={'admin'}/>}/> 
           <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/>
           <Route exact path='/trainer-details/:id' element={isAdmin? <TrainerInfo/> : <Login user={'admin'}/>}/> 
+          <Route exact path='/*' element={<Error404Page role={"/admin"}/>}/>
+
         </Routes>   
         
         
       </div>
     )
   } else {
-    return <Navigate to="/login" />;
+    return (
+      <Routes>
+
+     <Route exact path='/login' element={  <Login user={'admin'}/>}/>
+      </Routes>   
+
+    )  
   }
 }
 
