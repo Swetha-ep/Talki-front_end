@@ -147,13 +147,13 @@ function ProfileU() {
               />   )} */}
             </div>
            
-            <button
+            {/* <button
               type="submit"
               className="mt-12 p-2 m-2 text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
             >
               {" "}
               Go to Suggestions
-            </button>
+            </button> */}
             <button
               type="submit"
               className="p-2  text-white  rounded-3xl border bg-gray-900 hover:bg-gray-600 active:bg-black focus:outline-none focus:ring focus:ring-black hover:drop-shadow-xl w-40"
