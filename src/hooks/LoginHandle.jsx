@@ -17,7 +17,7 @@ export const useLoginHandle = () => {
           const token = res.data?.access;
           console.log({token})
           const decoded = jwtDecode(token);
-          const role = decoded.is_trainer ? 'trainer' : decoded.user_role ? 'admin' : 'user';
+          const role = decoded.is_trainer ? 'trainer' : decoded.user_role ? 'user' : 'admin';
           localStorage.setItem(role, token);
           window.location.href='/';
                    
