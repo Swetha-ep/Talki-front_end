@@ -35,10 +35,10 @@ export const useLoginHandle = () => {
         .post("/login", loginData)
         .then((res) => {
           const token = res.data?.access;
-          
           const decoded = jwtDecode(token);
           const role = decoded.is_trainer ? 'trainer' : decoded.user_role ? 'user' : 'admin';
-          localStorage.setItem(role, token);          window.location.href="/trainer/home"
+          localStorage.setItem(role, token);
+          window.location.href="/trainer/home"
         })
         .catch((error) => {
           console.log(error);
