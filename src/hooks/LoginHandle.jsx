@@ -36,8 +36,9 @@ export const useLoginHandle = () => {
         .then((res) => {
           const token = res.data?.access;
           
-          localStorage.setItem("trainer", token);
-          window.location.href="/trainer/home"
+          const decoded = jwtDecode(token);
+          const role = decoded.is_trainer ? 'trainer' : decoded.user_role ? 'user' : 'admin';
+          localStorage.setItem(role, token);          window.location.href="/trainer/home"
         })
         .catch((error) => {
           console.log(error);
@@ -48,7 +49,9 @@ export const useLoginHandle = () => {
         .post("/login", loginData)
         .then((res) => {
           const token = res.data?.access;
-          localStorage.setItem("admin", token);
+          const decoded = jwtDecode(token);
+          const role = decoded.is_trainer ? 'trainer' : decoded.user_role ? 'user' : 'admin';
+          localStorage.setItem(role, token);
           window.location.href="/admin"
         })
         .catch((error) => {
