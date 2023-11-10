@@ -30,7 +30,7 @@ function AdminRoute() {
           <Route exact path='/application-list' element={isAdmin? <ApplicaionList/> : <Login user={'admin'}/>}/> 
           <Route exact path='/application/:id' element={isAdmin? <ApplicationPage/> : <Login user={'admin'}/>}/>
           <Route exact path='/trainer-details/:id' element={isAdmin? <TrainerInfo/> : <Login user={'admin'}/>}/> 
-          <Route exact path='/*' element={<Error404Page role={"/"}/>}/>
+          <Route exact path='/*' element={<Error404Page role={"/admin"}/>}/>
 
         </Routes>   
         
