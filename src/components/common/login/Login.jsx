@@ -128,32 +128,28 @@ function Login({ user }) {
               <div className="flex justify-between">
                 <h3 className="text-xs hover:drop-shadow-xl ">
                 {user === "admin" ? (
-  // If user is admin, render nothing for this section
-  null
-) : (
-  // If user is not admin, render the links
-  <div>
-    <span>
-      Not a member?{" "}
-      <a className="underline hover:cursor-pointer" href="/register">
-        Register
-      </a>
-    </span>
-    <br />
-    <span>
-      <Link to="/forgot-password" className="underline hover:cursor-pointer">
-        Forgot password?
-      </Link>
-    </span>
-  </div>
-)}
+                  // If user is admin, render nothing for this section
+                  null
+                ) : (
+                  // If user is not admin, render the links
+                  <div>
+                    <span>
+                      Not a member?{" "}
+                      <a className="underline hover:cursor-pointer" href="/register">
+                        Register
+                      </a>
+                    </span>
+                    <br />
+                    <span>
+                      <Link to="/forgot-password" className="underline hover:cursor-pointer">
+                        Forgot password?
+                      </Link>
+                    </span>
+                  </div>
+                )}
                   <br />
                   
-                  <span>
-                  <Link to= "/forgot-password" className="underline hover:cursor-pointer">
-                      Forgot password?
-                  </Link> 
-                  </span>
+                  
                 </h3>
               </div>
               <button
