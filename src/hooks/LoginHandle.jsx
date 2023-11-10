@@ -24,7 +24,7 @@ export const useLoginHandle = () => {
 
           }else if(role === "trainer"){
             console.log("hllo");
-            window.location.href='/trainer';
+            window.location.href='/trainer/';
 
           }else{
             window.location.href='/admin/dashboard';
@@ -59,7 +59,7 @@ export const useLoginHandle = () => {
         .then((res) => {
           const token = res.data?.access;
           const decoded = jwtDecode(token);
-          const role = decoded.role ? 'admin' : '';
+          const role = decoded.user_role == 'admin' ? 'admin' : '';
           localStorage.setItem(role, token);
           window.location.href="/admin"
         })
