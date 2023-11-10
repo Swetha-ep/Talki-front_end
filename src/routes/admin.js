@@ -32,7 +32,7 @@ function AdminRoute() {
       </div>
     )
   } else {
-    return <Navigate to="/admin/login" />;
+    return <Navigate to="/login" />;
   }
 }
 
