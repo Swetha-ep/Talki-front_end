@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { PulseLoader } from 'react-spinners';
+import adminAxios from '../../../axios/adminAxios'
 
 function Usertable() {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ function Usertable() {
 
   useEffect(() => {
     
-    fetch('http://127.0.0.1:8000/dashboard/userslist/')
+    fetch(`${adminAxios}/userslist/`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
