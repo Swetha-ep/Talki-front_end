@@ -11,10 +11,13 @@ import TrainerInfo from '../pages/admin/trainerdetails/TrainerInfo'
 import Error404Page from '../components/common/error/Error404'
 
 function AdminRoute() {
+  const isUser = localStorage.getItem('user');
   const isAdmin =  localStorage.getItem('admin')
   console.log("token",isAdmin);
   
-  if (isAdmin) {
+  if (isUser) {
+    return <Navigate to="/" />;
+  } 
     
     return (
       <div>
@@ -34,15 +37,6 @@ function AdminRoute() {
         
       </div>
     )
-  } else {
-    return (
-      <Routes>
-
-     <Route exact path='/login' element={  <Login user={'admin'}/>}/>
-      </Routes>   
-
-    )  
-  }
 }
 
 export default AdminRoute
