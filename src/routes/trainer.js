@@ -9,16 +9,15 @@ import TrainerChatComponent from '../components/trainer/chat/TrainerChatComponen
 import Error404Page from '../components/common/error/Error404'
 
 function TrainerRoute() {
+  const isTrainer = localStorage.getItem('trainer');
+
   return (
     <div>
       <Routes>
-        <Route exact path='/'/>
-        <Route exact path='/login' element={<Login user={'trainer'} />}/>
-        <Route exact path='/register' element={<Signup/>}/>
-        <Route exact path='/home' element={<Homet/>}/>
-        <Route exact path='/profile' element={<Profilet/>}/>
-        <Route exact path='/requests' element={<UserRequests/>}/>
-        <Route exact path='/chat/:channelName/:user' element={<TrainerChatComponent/>}/>
+        <Route exact path='/' element={isTrainer ? <Homet/> :<Login user={'user'}/>}/>
+        <Route exact path='/profile' element={isTrainer ?<Profilet/> :<Login user={'user'}/>}/>
+        <Route exact path='/requests' element={isTrainer ?<UserRequests/>:<Login user={'user'}/>}/>
+        <Route exact path='/chat/:channelName/:user' element={isTrainer ?<TrainerChatComponent/>:<Login user={'user'}/>}/>
         <Route exact path='/*' element={<Error404Page role={"/trainer"}/>}/>
 
       </Routes>

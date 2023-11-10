@@ -23,7 +23,8 @@ export const useLoginHandle = () => {
             window.location.href='/';
 
           }else if(role === "trainer"){
-            window.location.href='/trainer/home';
+            console.log("hllo");
+            window.location.href='/trainer';
 
           }else{
             window.location.href='/admin/dashboard';
