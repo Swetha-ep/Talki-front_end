@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { PulseLoader } from 'react-spinners';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { adminAPI } from "../../../constants/api";
 
 function Trainertable() {
   const [users, setUsers] = useState([]);
