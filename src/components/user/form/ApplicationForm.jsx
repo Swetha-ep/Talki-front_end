@@ -41,8 +41,8 @@ function ApplicationForm() {
 
   useEffect(() => {
     
-    axios
-      .get(`http://127.0.0.1:8000/accounts/viewapplication/${decoded.user_id}`)
+    userAxios
+      .get(`/viewapplication/${decoded.user_id}`)
       .then((response) => {
         const previousData = response.data; 
         console.log(previousData[0])
@@ -80,8 +80,8 @@ function ApplicationForm() {
       toast.error("Please fill in all required fields.");
     } else {
       // If the required fields are filled, submit the form
-      axios
-        .post('http://127.0.0.1:8000/accounts/submit-application/', formData)
+      userAxios
+        .post('/submit-application/', formData)
         .then((response) => {
           toast.success("Application submitted successfully");
           navigate("/application-info");

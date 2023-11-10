@@ -39,8 +39,8 @@ function Usertable() {
       if (result.isConfirmed) {
         
         const apiUrl = is_active
-          ? `http://127.0.0.1:8000/dashboard/user-block/${userId}/`
-          : `http://127.0.0.1:8000/dashboard/user-unblock/${userId}/`;
+          ? `${adminAPI}/user-block/${userId}/`
+          : `${adminAPI}/user-unblock/${userId}/`;
   
         
         fetch(apiUrl, {

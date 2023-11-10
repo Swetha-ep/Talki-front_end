@@ -4,6 +4,7 @@ import adminAxios from '../../../axios/adminAxios';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
+import { adminAPI } from '../../../constants/api';
 
 function ApplicationTable() {
   const [applications, setApplications] = useState([]);
@@ -43,8 +44,8 @@ function ApplicationTable() {
       if (result.isConfirmed) {
         // Make an Axios POST request to your Django backend
         const endpoint = accept
-          ? `http://localhost:8000/dashboard/accept_application/${application.id}/`
-          : `http://localhost:8000/dashboard/decline_application/${application.id}/`;
+          ? `${adminAPI}/accept_application/${application.id}/`
+          : `${adminAPI}/decline_application/${application.id}/`;
 
         axios
           .post(endpoint)

@@ -5,6 +5,7 @@ import useRazorpay from 'react-razorpay';
 import logoImage from '../../../assets/logo.png';
 import jwtDecode from 'jwt-decode';
 import Swal from 'sweetalert2';
+import { paymentAPI } from '../../../constants/api';
 
 function VipPay() {
   const token = localStorage.getItem('user');
@@ -13,7 +14,7 @@ function VipPay() {
   const [amount, setAmount] = useState({});
 
  useEffect(()=>{
-  axios.get('http://127.0.0.1:8000/payment/paymentdetails/')
+  axios.get(`${paymentAPI}/paymentdetails/`)
   .then((response) => {
     console.log(response.data)
     setAmount(response.data)
@@ -22,7 +23,7 @@ function VipPay() {
   const complete_payment = (payment_id,order_id,signature) => {
   
     axios
-    .post(`http://127.0.0.1:8000/payment/order/complete/${decoded.user_id}/`, {
+    .post(`${paymentAPI}/order/complete/${decoded.user_id}/`, {
       "user" : decoded.user_id,
       "payment_id": payment_id,
       "order_id": order_id,
@@ -51,7 +52,7 @@ function VipPay() {
   const razorpayPayment = () => {
   
     axios
-    .post(`http://127.0.0.1:8000/payment/order/create/${decoded.user_id}/`, {
+    .post(`${paymentAPI}/order/create/${decoded.user_id}/`, {
       // "payment_id": payment_id,
       // "order_id": order_id,
       // "signature": signature,

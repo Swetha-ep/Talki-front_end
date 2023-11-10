@@ -60,8 +60,8 @@ function Trainertable() {
       if (result.isConfirmed) {
         
         const apiUrl = is_trainer
-          ? `http://127.0.0.1:8000/dashboard/trainer-block/${userId}/`
-          : `http://127.0.0.1:8000/dashboard/trainer-unblock/${userId}/`;
+          ? `${adminAPI}/trainer-block/${userId}/`
+          : `${adminAPI}/trainer-unblock/${userId}/`;
   
         
         fetch(apiUrl, {
@@ -113,8 +113,8 @@ function Trainertable() {
     }).then((result) => {
       if (result.isConfirmed) {
         const apiUrl = is_Tvip
-          ? `http://127.0.0.1:8000/dashboard/trainer-nonvip/${userId}/`
-          : `http://127.0.0.1:8000/dashboard/trainer-vip/${userId}/`;
+          ? `${adminAPI}/trainer-nonvip/${userId}/`
+          : `${adminAPI}/trainer-vip/${userId}/`;
           
         fetch(apiUrl, {
           method: 'PATCH',

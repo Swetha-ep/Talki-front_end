@@ -8,7 +8,8 @@ import jwtDecode from "jwt-decode";
 import userAxios from "../../../axios/userAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { chatAPI } from "../../../constants/api";
+import { chatAPI, userAPI } from "../../../constants/api";
+import { trainerAPI } from "../../../constants/api";
 
 function ApplicationTable() {
   const token = localStorage.getItem("trainer");
@@ -62,8 +63,8 @@ function ApplicationTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         const apiUrl = status
-          ? `http://127.0.0.1:8000/trainer/trainer-offline/${decoded.id}/`
-          : `http://127.0.0.1:8000/trainer/trainer-online/${decoded.id}/`;
+          ? `${trainerAPI}/trainer-offline/${decoded.id}/`
+          : `${trainerAPI}/trainer-online/${decoded.id}/`;
 
         setStatus(status ? false : true);
         fetch(apiUrl, {
@@ -164,7 +165,7 @@ function ApplicationTable() {
     const recipient_id = decoded.id;
 
     fetch(
-      ` http://127.0.0.1:8000/accounts/accept-request/${senderId}/${recipient_id}/`,
+      ` ${userAPI}/accept-request/${senderId}/${recipient_id}/`,
       {
         method: "POST",
         headers: {
