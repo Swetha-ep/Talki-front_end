@@ -12,6 +12,10 @@ import { useState } from "react";
 import { userAPI } from "../../../constants/api";
 import axios from "axios";
 function Home() {
+  useEffect(() => {
+    
+    document.title = "Home | Talki";
+  }, []);
   const [profile, setProfile] = useState("");
   const token = localStorage.getItem("user");
   const decoded = jwtDecode(token);

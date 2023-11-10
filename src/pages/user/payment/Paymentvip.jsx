@@ -4,6 +4,10 @@ import Footer from '../../../components/user/footer/Footer'
 import VipPay from '../../../components/user/viphome/VipPay'
 
 function Paymentvip() {
+  useEffect(() => {
+    
+    document.title = "Payment | Talki";
+  }, []);
   return (
     <div>
       <Navbar />

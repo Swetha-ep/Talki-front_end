@@ -5,6 +5,10 @@ import Linegraph from '../../../components/admin/dashboardgraph/Linegraph'
 
 
 function Dashboard() {
+  useEffect(() => {
+    
+    document.title = "Dashboard | Talki";
+  }, []);
   return (
     <div>
       <NavbarA/>

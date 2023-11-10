@@ -4,6 +4,10 @@ import Trainertable from '../../../components/admin/trainertable/Trainertable'
 
 
 function Trainerlist() {
+  useEffect(() => {
+    
+    document.title = "Trainerlist | Talki";
+  }, []);
   return (
     <div>
       <NavbarA/>

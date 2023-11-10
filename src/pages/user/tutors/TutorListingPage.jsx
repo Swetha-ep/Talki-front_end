@@ -4,6 +4,10 @@ import Footer from '../../../components/user/footer/Footer'
 import TutorListing from '../../../components/user/tutor/TutorListing'
 
 function TutorListingPage() {
+  useEffect(() => {
+    
+    document.title = "Trainers | Talki";
+  }, []);
   return (
     <div>
       <Navbar/>

@@ -5,6 +5,10 @@ import Cards from '../../../components/user/section2/Cards'
 import Footer from '../../../components/user/footer/Footer'
 
 function Homet() {
+  useEffect(() => {
+    
+    document.title = "Home | Talki";
+  }, []);
   return (
     <div>
       <Navbart />

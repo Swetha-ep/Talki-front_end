@@ -4,6 +4,10 @@ import Footer from '../../../components/user/footer/Footer'
 import TutorProfile from '../../../components/user/tutor/TutorProfile'
 
 function TutorProfilePage() {
+  useEffect(() => {
+    
+    document.title = "Trainer profile | Talki";
+  }, []);
   return (
     <div>
       <Navbar/>
